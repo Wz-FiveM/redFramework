@@ -12,3 +12,16 @@ function RedFW.Client.Functions:requestModel(model)
     end
     return true
 end
+
+function RedFW.Client.Functions:notification(message)
+    SetNotificationTextEntry("STRING")
+    AddTextComponentString(message)
+    DrawNotification(false, false)
+end
+
+function RedFW.Client.Functions:notificationPicture(message, title, subtitle, iconType, iconId)
+    SetNotificationTextEntry("STRING")
+    AddTextComponentString(message)
+    SetNotificationMessage(iconType, iconId, true, iconType, title, subtitle)
+    DrawNotification(false, false)
+end
