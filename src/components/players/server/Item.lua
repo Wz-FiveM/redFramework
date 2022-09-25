@@ -6,7 +6,10 @@ RedFW.Server.Components.Players.items.list = {}
 ---@return boolean
 ---@public
 function RedFW.Server.Components.Players.items:exist(item)
-    return RedFW.Server.Components.Players.items.list[item] ~= nil
+    if (RedFW.Server.Components.Players.items.list[item]) then
+        return true
+    end
+    return false
 end
 
 ---registerItem
@@ -14,10 +17,11 @@ end
 ---@return void
 ---@public
 function RedFW.Server.Components.Players.items:registerItem(item)
-    if not RedFW.Server.Components.Players.items:exist(item) then
-        RedFW.Server.Components.Players.items.list[item] = item
+    if (not RedFW.Server.Components.Players.items:exist(item.name)) then
+        RedFW.Server.Components.Players.items.list[item.name] = item
+        print(('^2Item %s registered^0'):format(item.name))
     else
-        error("Item "..item.." already exist")
+        print(('^1Item %s already exist^0'):format(item.name))
     end
 end
 
