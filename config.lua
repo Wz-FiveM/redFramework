@@ -12,6 +12,9 @@
 
 RedFW = {
   Default = {
+    Inventory = {
+      weight = 100,
+    },
     Skin = {
       chain_1 = 0,
       bproof_1 = 0,

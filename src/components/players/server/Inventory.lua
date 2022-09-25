@@ -12,6 +12,24 @@ function RedFW.Server.Components.Players.inventory:get(PlayerId)
     return nil
 end
 
+---calculeWeight
+---@return number
+---@public 
+function RedFW.Server.Components.Players.inventory:calculeWeight()
+    local weight = 0
+    for k, v in pairs(self.inventory) do
+        weight = weight + (RedFW.Server.Components.Players.items:get(k).weight * v)
+    end
+    return weight
+end
+
+---canCarry
+---@return boolean
+---@public 
+function RedFW.Server.Components.Players.inventory:canCarry()
+    return self:calculeWeight() <= RedFW.Default.Inventory.weight
+end
+
 ---addItem
 ---@param PlayerId number
 ---@param item string
