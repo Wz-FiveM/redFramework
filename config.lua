@@ -90,4 +90,4 @@ RedFW = {
 }
 RedFW.Client = {Components = {}}
 RedFW.Shared = {Components = {}}
-RedFW.Server = {Components = {}}
+RedFW.Server = {Components = {Players = {}}}
