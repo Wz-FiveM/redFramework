@@ -20,6 +20,7 @@ setmetatable(RedFW.Server.Components.Players.metatable, {
         self.serverId = serverId
         self.identifier = datas.identifier
         self.skin = json.decode(datas.skin)
+        self.inventory = json.decode(datas.inventory)
         RedFW.Server.Components.Players.listPlayers[serverId] = self
         print(('^2Player %s loaded^0'):format(GetPlayerName(self.serverId)))
         return self
