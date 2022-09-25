@@ -15,16 +15,18 @@ RedFW.Server.Components.Players.listPlayers = {}
 RedFW.Server.Components.Players.metatable = {}
 
 setmetatable(RedFW.Server.Components.Players.metatable, {
-    __call = function(_, serverId)
+    __call = function(_, serverId, datas)
         local self = setmetatable({}, RedFW.Server.Components.Players.metatable)
         self.serverId = serverId
+        self.identifier = datas.identifier
+        self.skin = json.decode(datas.skin)
         RedFW.Server.Components.Players.listPlayers[serverId] = self
-        print(('Player %i loaded'):format(self.serverId))
+        print(('^2Player %s loaded^0'):format(GetPlayerName(self.serverId)))
         return self
     end
 })
 
-RedFW_Shared_Event:registerEvent("onPlayerLoaded", function()
+RedFW.Shared.Event:registerEvent("onPlayerLoaded", function()
     local _src = source
     if (_src) then
         MySQL.Async.fetchAll('SELECT * FROM users WHERE identifier = @identifier', {
@@ -33,8 +35,9 @@ RedFW_Shared_Event:registerEvent("onPlayerLoaded", function()
             if (result[1]) then
                 RedFW.Server.Components.Players.metatable(_src, result[1])
             else
-                MySQL.Async.execute('INSERT INTO users (identifier) VALUES (@identifier)', {
-                    ['@identifier'] = GetPlayerIdentifiers(_src)[1]
+                MySQL.Async.execute('INSERT INTO users (identifier, skin) VALUES (@identifier, @skin)', {
+                    ['@identifier'] = GetPlayerIdentifiers(_src)[1],
+                    ['@skin'] = json.encode(RedFW.Default.Skin)
                 }, function()
                     MySQL.Async.fetchAll('SELECT * FROM users WHERE identifier = @identifier', {
                         ['@identifier'] = GetPlayerIdentifiers(_src)[1]
