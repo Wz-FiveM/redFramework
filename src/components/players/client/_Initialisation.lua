@@ -9,3 +9,19 @@
   via any medium is strictly prohibited. This code is confidential.
 
 --]]
+
+RedFW.Client.Components.Player = {}
+
+CreateThread(function()
+    DoScreenFadeOut(1000)
+    print("Loading character...")
+    while not NetworkIsSessionStarted() do
+        Wait(1)
+    end
+    ShutdownLoadingScreenNui()
+    ShutdownLoadingScreen()
+    FreezeEntityPosition(PlayerPedId(), false)
+    RedFW.Shared.Event:triggerServerEvent("onPlayerLoaded")
+    print("Loading complete...")
+    DoScreenFadeIn(1000)
+end)

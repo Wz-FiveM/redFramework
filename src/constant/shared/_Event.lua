@@ -9,3 +9,39 @@
   via any medium is strictly prohibited. This code is confidential.
 
 --]]
+
+RedFW.Shared.Event = {}
+
+---triggerEvent
+---@param nameEvent string
+---@public
+function RedFW.Shared.Event:triggerEvent(nameEvent, ...)
+    local newEvent = "RedFW:"..GetHashKey(nameEvent)
+    TriggerEvent(newEvent, ...)
+end
+
+---registerEvent
+---@param nameEvent string
+---@param callback function
+---@public
+function RedFW.Shared.Event:registerEvent(nameEvent, callback)
+    local newEvent = "RedFW:"..GetHashKey(nameEvent)
+    RegisterNetEvent(newEvent, callback)
+end
+
+---triggerServerEvent
+---@param nameEvent string
+---@public
+function RedFW.Shared.Event:triggerServerEvent(nameEvent, ...)
+    local newEvent = "RedFW:"..GetHashKey(nameEvent)
+    TriggerServerEvent(newEvent, ...)
+end
+
+---triggerClientEvent
+---@param nameEvent string
+---@param source number
+---@public
+function RedFW.Shared.Event:triggerClientEvent(nameEvent, source, ...)
+    local newEvent = "RedFW:"..GetHashKey(nameEvent)
+    TriggerClientEvent(newEvent, source, ...)
+end

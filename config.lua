@@ -9,3 +9,8 @@
   via any medium is strictly prohibited. This code is confidential.
 
 --]]
+
+RedFW = {}
+RedFW.Client = {Components = {}}
+RedFW.Shared = {Components = {}}
+RedFW.Server = {Components = {}}
