@@ -11,14 +11,14 @@
 --]]
 
 RedFW.Server.Components.Players = {}
-
-
+RedFW.Server.Components.Players.listPlayers = {}
 RedFW.Server.Components.Players.metatable = {}
 
 setmetatable(RedFW.Server.Components.Players.metatable, {
-    __call = function(__call, serverId)
+    __call = function(_, serverId)
         local self = setmetatable({}, RedFW.Server.Components.Players.metatable)
         self.serverId = serverId
+        RedFW.Server.Components.Players.listPlayers[serverId] = self
         print(('Player %i loaded'):format(self.serverId))
         return self
     end
@@ -46,3 +46,18 @@ RedFW_Shared_Event:registerEvent("onPlayerLoaded", function()
         end)
     end;
 end)
+
+---get 
+---@param serverId number
+---@return table
+---@public
+function RedFW.Server.Components.Players:get(serverId)
+    return RedFW.Server.Components.Players.listPlayers[serverId]
+end
+
+---getAll
+---@return table
+---@public
+function RedFW.Server.Components.Players:getAll()
+    return RedFW.Server.Components.Players.listPlayers
+end
