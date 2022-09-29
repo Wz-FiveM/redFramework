@@ -70,6 +70,29 @@ function RedFW.Server.Components.Players.items:addItem(serverId, name, count)
     end
 end
 
+function RedFW.Server.Components.Players.items:removeItem(serverId, name, count)
+    local item = RedFW.Server.Components.Players.items:get(name)
+    if item then
+        local inventory = RedFW.Server.Components.Players.inventory:get(serverId)
+        if inventory then
+            if inventory.data[name] ~= nil then
+                if inventory.data[name].count - count >= 0 then
+                    inventory.data[name].count = inventory.data[name].count - count
+                    inventory:save()
+                    RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, inventory, inventory.getWeight())
+                    return true
+                else
+                    print("^1You don't have enough items^0")
+                    return false
+                end
+            else
+                print("^1You don't have this item^0")
+                return false
+            end
+        end
+    end
+end
+
 RegisterCommand('addItem', function(source, args)
     local _src = tonumber(args[1])
     local item = args[2]
