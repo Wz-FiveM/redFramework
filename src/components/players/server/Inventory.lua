@@ -14,6 +14,13 @@ setmetatable(RedFW.Server.Components.Players.inventory, {
                 print(('^2Inventory of %s saved^0'):format(GetPlayerName(serverId)))
             end)
         end
+        self.getWeight = function()
+            local weight = 0
+            for k, v in pairs(self.data) do
+                weight = weight + (v.weight * v.count)
+            end
+            return weight
+        end
         RedFW.Server.Components.Players.inventory.list[serverId] = self
         return self
     end
@@ -27,13 +34,15 @@ function RedFW.Server.Components.Players.inventory:get(serverId)
     return RedFW.Server.Components.Players.inventory.list[serverId]
 end
 
+---getAll
+---@return table
+---@public
 function RedFW.Server.Components.Players.inventory:getAll()
     return RedFW.Server.Components.Players.inventory.list
 end
 
-
 RegisterCommand('getInv', function(source, args)
     local _src = tonumber(args[1])
     local inv = RedFW.Server.Components.Players.inventory:get(_src)
-    inv:save()
+    print(json.encode(inv.data))
 end)
