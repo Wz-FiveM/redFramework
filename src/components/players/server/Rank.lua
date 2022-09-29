@@ -22,3 +22,17 @@ end
 function RedFW.Server.Components.Rank:getPower()
     return self.power
 end
+
+function RedFW.Server.Components.Rank:canUseThisCommand(serverId, requirePower)
+    local player = RedFW.Server.Components.Players:get(serverId)
+    if player then
+        local rank = RedFW.Server.Components.Rank:get(player.getRank())
+        if rank then
+            if rank.getPower() >= requirePower then
+                return true
+            else
+                return false
+            end
+        end
+    end
+end
