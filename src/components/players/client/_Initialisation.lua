@@ -11,6 +11,7 @@
 --]]
 
 RedFW.Client.Components.Player = {}
+RedFW.Client.Components.Player.inventory = {}
 
 CreateThread(function()
     DoScreenFadeOut(1000)
@@ -25,6 +26,7 @@ CreateThread(function()
     SetPlayerModel(PlayerId(), GetHashKey("mp_m_freemode_01"))
     SetPedDefaultComponentVariation(PlayerPedId())
     RedFW.Shared.Event:triggerServerEvent("onPlayerLoaded")
+    RedFW.Shared.Event:triggerServerEvent("getInventory")
     print("Loading complete...")
     DoScreenFadeIn(1000)
 end)
