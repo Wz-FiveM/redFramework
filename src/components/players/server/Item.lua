@@ -63,7 +63,7 @@ function RedFW.Server.Components.Players.items:addItem(serverId, name, count)
                 RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, inventory, inventory.getWeight())
                 return true
             else
-                print("^1Inventory is full^0")
+                print("^1The player cannot receive this amount as it will exceed the maximum item limit on being.^0")
                 return false
             end
         end
