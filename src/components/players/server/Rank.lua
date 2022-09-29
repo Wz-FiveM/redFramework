@@ -19,10 +19,18 @@ function RedFW.Server.Components.Rank:getAll()
     return RedFW.Server.Components.Rank.listRanks
 end
 
+---getPower
+---@public
+---@return number
 function RedFW.Server.Components.Rank:getPower()
     return self.power
 end
 
+---canUseThisCommand
+---@param serverId number
+---@param requirePower number
+---@return boolean
+---@public
 function RedFW.Server.Components.Rank:canUseThisCommand(serverId, requirePower)
     local player = RedFW.Server.Components.Players:get(serverId)
     if player then
