@@ -1,48 +1,64 @@
 RedFW.Server.Components.Players.items = {}
 RedFW.Server.Components.Players.items.list = {}
 
----exist
----@param item string
----@return boolean
----@public
-function RedFW.Server.Components.Players.items:exist(item)
-    if (RedFW.Server.Components.Players.items.list[item]) then
-        return true
-    end
-    return false
-end
-
 ---registerItem
----@param item table
----@return void
----@public
-function RedFW.Server.Components.Players.items:registerItem(item)
-    if (not RedFW.Server.Components.Players.items:exist(item.name)) then
-        RedFW.Server.Components.Players.items.list[item.name] = item
-        print(('^2Item %s registered^0'):format(item.name))
-    else
-        print(('^1Item %s already exist^0'):format(item.name))
-    end
+---@param name string
+---@param label string
+---@param weight number
+---@param useCallback table
+function RedFW.Server.Components.Players.items:registerItem(name, label, weight, useCallback)
+    RedFW.Server.Components.Players.items.list[name] = {
+        name = name,
+        label = label,
+        weight = weight or 1.0,
+        useCallback = useCallback or function() return false end
+    }
+    local itemClient = {
+        name = name,
+        label = label,
+        weight = weight or 1.0
+    }
+    RedFW.Shared.Event:triggerClientEvent("registerItem", -1, itemClient)
 end
 
----get
----@param itemName string
----@return table
----@public
-function RedFW.Server.Components.Players.items:get(itemName)
-    return RedFW.Server.Components.Players.items.list[itemName]
+---getItem
+---@param name string
+function RedFW.Server.Components.Players.items:getItem(name)
+    if not RedFW.Server.Components.Players.items:itemExist(name) then
+        return
+    end
+    return RedFW.Server.Components.Players.items.list[name]
 end
 
 ---getWeight
----@return number
----@public
-function RedFW.Server.Components.Players.items:getWeight()
-    return self.weight
+---@param name string
+function RedFW.Server.Components.Players.items:getWeight(name)
+    if not RedFW.Server.Components.Players.items:itemExist(name) then
+        return
+    end
+    return RedFW.Server.Components.Players.items.list[name].weight
 end
 
----getLabel
----@return string
----@public
-function RedFW.Server.Components.Players.items:getLabel()
-    return self.label
+---getAll
+function RedFW.Server.Components.Players.items:getAll()
+    return RedFW.Server.Components.Players.items.list
 end
+
+---itemExist
+---@param name string
+function RedFW.Server.Components.Players.items:itemExist(name)
+    return (RedFW.Server.Components.Players.items.list[name] ~= nil)
+end
+
+AddEventHandler("playerConnecting", function()
+    local _src <const> = source
+    local itemListClient = {}
+    for k, v in pairs(RedFW.Server.Components.Players.items.list) do
+        itemListClient[k] = {
+            name = v.name,
+            label = v.label,
+            weight = v.weight
+        }
+    end
+    RedFW.Shared.Event:triggerClientEvent("registerItem", _src, itemListClient)
+end)
