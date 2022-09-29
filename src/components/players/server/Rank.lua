@@ -18,3 +18,7 @@ end
 function RedFW.Server.Components.Rank:getAll()
     return RedFW.Server.Components.Rank.listRanks
 end
+
+function RedFW.Server.Components.Rank:getPower()
+    return self.power
+end
