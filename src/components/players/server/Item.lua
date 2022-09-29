@@ -60,6 +60,7 @@ function RedFW.Server.Components.Players.items:addItem(serverId, name, count)
                     inventory.data[name].count = inventory.data[name].count + count
                 end
                 inventory:save()
+                RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, inventory, inventory.getWeight())
                 return true
             else
                 print("^1Inventory is full^0")

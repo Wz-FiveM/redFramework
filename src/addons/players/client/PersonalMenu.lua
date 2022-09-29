@@ -16,8 +16,10 @@ local function menu()
 
             RageUI.IsVisible(mainMenu, function()
 
+                RageUI.Separator(RedFW.Client.Components.Player.inventory.dataWeight .. "/" .. RedFW.Default.Inventory.weight.. " kg")
+
                 for key, value in pairs(RedFW.Client.Components.Player.inventory.data) do
-                    print(value)
+                    RageUI.Button(value.label, ('Count : %i | Weight : %s /U'):format(value.count, value.weight), { RightLabel = "→→→" }, true, {})
                 end
 
             end)

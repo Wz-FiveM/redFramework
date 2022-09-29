@@ -22,7 +22,7 @@ setmetatable(RedFW.Server.Components.Players.metatable, {
         self.inventory = RedFW.Server.Components.Players.inventory(json.decode(datas.inventory), serverId)
         RedFW.Server.Components.Players.listPlayers[serverId] = self
         print(('^2Player %s loaded^0'):format(GetPlayerName(self.serverId)))
-        RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, self.inventory)
+        RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, self.inventory, self.inventory.getWeight())
         return self
     end
 })
