@@ -44,3 +44,26 @@ function RedFW.Shared.Event:triggerClientEvent(nameEvent, source, ...)
     local newEvent = "RedFW:"..GetHashKey(nameEvent)
     TriggerClientEvent(newEvent, source, ...)
 end
+
+---removeHandler
+---@param nameEvent string
+---@public
+function RedFW.Shared.Event:removeHandler(nameEvent)
+    local newEvent = "RedFW:"..GetHashKey(nameEvent)
+    RemoveEventHandler(newEvent)
+end
+
+---removeEvent
+---@param nameEvent string
+---@public
+function RedFW.Shared.Event:removeEvent(nameEvent)
+    RemoveEventHandler(nameEvent)
+end
+
+---handleEvent
+---@param nameEvent string
+---@public
+function RedFW.Shared.Event:handleEvent(nameEvent, callback)
+    local newEvent = "RedFW:"..GetHashKey(nameEvent)
+    return AddEventHandler(newEvent, callback)
+end

@@ -24,6 +24,7 @@ server_scripts {
     "@oxmysql/lib/MySQL.lua",
     "src/constant/server/*.lua",
     "src/components/**/server/*.lua",
+    "src/addons/**/server/*.lua",
 }
 
 client_scripts {

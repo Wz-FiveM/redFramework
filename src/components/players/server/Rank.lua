@@ -1,46 +1,37 @@
-RedFW.Server.Components.Rank = {}
-RedFW.Server.Components.Rank.listRanks = {
-    ["admin"] = {power = 100, label = "Administrateur"},
-    ["user"] = {power = 0, label = "Utilisateur"}
+RedFW.Server.Components.Players.rank = {}
+RedFW.Server.Components.Players.rank.__index = RedFW.Server.Components.Players.rank
+RedFW.Server.Components.Players.rank.availableRank = {
+    ["user"] = {power = 0, label = "user"},
+    ["moderator"] = {power = 1, label = "moderator"},
+    ["admin"] = {power = 2, label = "administrator"},
+    ["superadmin"] = {power = 3, label = "superadmin"},
+    ["owner"] = {power = 4, label = "owner"}
 }
 
----get
----@param rank string
----@return table
----@public
-function RedFW.Server.Components.Rank:get(rank)
-    return RedFW.Server.Components.Rank.listRanks[rank]
+CreateThread(function()
+    for key, value in pairs(RedFW.Server.Components.Players.rank.availableRank) do
+        local self = setmetatable({}, RedFW.Server.Components.Players.rank)
+        self.rankName = key
+        self.rankLabel = value.label
+        self.powerIndex = value.power
+        RedFW.Server.Components.Players.rank.availableRank[key] = self
+        print("^2Rank " .. key .. " loaded^0")
+    end
+end)
+
+function RedFW.Server.Components.Players.rank:getRank(rankName)
+    if RedFW.Server.Components.Players.rank.availableRank[rankName] then
+        return RedFW.Server.Components.Players.rank.availableRank[rankName]
+    else
+        return RedFW.Server.Components.Players.rank.availableRank["user"]
+    end
 end
 
----getAll
----@return table
----@public 
-function RedFW.Server.Components.Rank:getAll()
-    return RedFW.Server.Components.Rank.listRanks
-end
-
----getPower
----@public
----@return number
-function RedFW.Server.Components.Rank:getPower()
-    return self.power
-end
-
----canUseThisCommand
----@param serverId number
----@param requirePower number
----@return boolean
----@public
-function RedFW.Server.Components.Rank:canUseThisCommand(serverId, requirePower)
+function RedFW.Server.Components.Players.rank:canUseThisCommand(serverId, powerIndex)
     local player = RedFW.Server.Components.Players:get(serverId)
-    if player then
-        local rank = RedFW.Server.Components.Rank:get(player.getRank())
-        if rank then
-            if rank.getPower() >= requirePower then
-                return true
-            else
-                return false
-            end
-        end
+    if player.rank.powerIndex >= powerIndex then
+        return true
+    else
+        return false
     end
 end

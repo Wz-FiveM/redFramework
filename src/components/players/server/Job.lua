@@ -2,7 +2,7 @@ RedFW.Server.Components.Players.jobs = {}
 RedFW.Server.Components.Players.jobs.list = {}
 RedFW.Server.Components.Players.jobs.__index = RedFW.Server.Components.Players.jobs
 
-function RedFW.Server.Components.Players.jobs.new(name, data)
+function RedFW.Server.Components.Players.jobs:new(name, data)
     local self = setmetatable({}, RedFW.Server.Components.Players.jobs)
     self.name = name
     self.label = data.label
@@ -50,7 +50,7 @@ function RedFW.Server.Components.Players.jobs:setJobPlayer(serverId, jobName, gr
     end
 end
 
-RedFW.Server.Components.Players.jobs.new("unemployed", { --Don't touch this
+RedFW.Server.Components.Players.jobs:new("unemployed", { --Don't touch this
     label = "Sans-Emploie",
     grades = {
         ["unemployed"] = {

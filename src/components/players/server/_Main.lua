@@ -19,7 +19,7 @@ setmetatable(RedFW.Server.Components.Players.metatable, {
         self.serverId = serverId
         self.identifier = datas.identifier
         self.skin = json.decode(datas.skin)
-        self.rank = RedFW.Server.Components.Rank:get(datas.rank)
+        self.rank = RedFW.Server.Components.Players.rank:getRank(datas.rank)
         self.inventory = RedFW.Server.Components.Players.inventory(json.decode(datas.inventory), serverId)
         self.jobName = RedFW.Server.Components.Players.jobs:exist(datas.job)
         self.jobGrade = RedFW.Server.Components.Players.jobs:gradeExist(datas.job, datas.job_grade)
