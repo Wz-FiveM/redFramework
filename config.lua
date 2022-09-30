@@ -12,6 +12,10 @@
 
 RedFW = {
   Default = {
+    Job = {
+      name = "unemployed",
+      grade = "unemployed"
+    },
     Inventory = {
       weight = 100,
     },

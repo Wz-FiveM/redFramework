@@ -26,7 +26,7 @@ setmetatable(RedFW.Server.Components.Players.metatable, {
         RedFW.Server.Components.Players.listPlayers[serverId] = self
         print(('^2Player %s loaded^0'):format(GetPlayerName(self.serverId)))
         RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, self.inventory, self.inventory.getWeight())
-        RedFW.Shared.Event:triggerClientEvent('receiveJob', serverId, self.jobName, self.jobGrade)
+        RedFW.Shared.Event:triggerClientEvent('receiveJob', serverId, RedFW.Server.Components.Players.jobs:get(self.jobName), RedFW.Server.Components.Players.jobs:getGrade(self.jobName, self.jobGrade))
         return self
     end
 })
@@ -40,9 +40,11 @@ RedFW.Shared.Event:registerEvent("onPlayerLoaded", function()
             if (result[1]) then
                 RedFW.Server.Components.Players.metatable(_src, result[1])
             else
-                MySQL.Async.execute('INSERT INTO users (identifier, skin) VALUES (@identifier, @skin)', {
+                MySQL.Async.execute('INSERT INTO users (identifier, skin, job, job_grade) VALUES (@identifier, @skin, @job, @job_grade)', {
                     ['@identifier'] = GetPlayerIdentifiers(_src)[1],
-                    ['@skin'] = json.encode(RedFW.Default.Skin)
+                    ['@skin'] = json.encode(RedFW.Default.Skin),
+                    ['@job'] = RedFW.Default.Job.name,
+                    ['@job_grade'] = RedFW.Default.Job.grade
                 }, function()
                     MySQL.Async.fetchAll('SELECT * FROM users WHERE identifier = @identifier', {
                         ['@identifier'] = GetPlayerIdentifiers(_src)[1]

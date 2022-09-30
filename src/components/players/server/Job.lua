@@ -15,10 +15,8 @@ function RedFW.Server.Components.Players.jobs:get(jobName)
     return RedFW.Server.Components.Players.jobs.list[jobName]
 end
 
-function RedFW.Server.Components.Players.jobs:getGrade(gradeName)
-    if self.grades[gradeName] then
-        return self.grades[gradeName]
-    end
+function RedFW.Server.Components.Players.jobs:getGrade(jobName, gradeName)
+    return RedFW.Server.Components.Players.jobs.list[jobName].grades[gradeName]
 end
 
 function RedFW.Server.Components.Players.jobs:exist(jobName)
@@ -29,10 +27,27 @@ function RedFW.Server.Components.Players.jobs:exist(jobName)
 end
 
 function RedFW.Server.Components.Players.jobs:gradeExist(jobName, gradeName)
-    if RedFW.Server.Components.Players.jobs.list[jobName].grades[gradeName] ~= nil then
-        return gradeName
+    if RedFW.Server.Components.Players.jobs.list[jobName] then
+        if RedFW.Server.Components.Players.jobs.list[jobName].grades[gradeName] then
+            return gradeName
+        end
     end
     return "unemployed"
+end
+
+function RedFW.Server.Components.Players.jobs:setJobPlayer(serverId, jobName, gradeName)
+    local player = RedFW.Server.Components.Players:get(serverId)
+    if player ~= nil then
+        player.jobName = RedFW.Server.Components.Players.jobs:exist(jobName)
+        player.jobGrade = RedFW.Server.Components.Players.jobs:gradeExist(jobName, gradeName)
+        MySQL.Async.execute('UPDATE users SET job = @job, job_grade = @job_grade WHERE identifier = @identifier', {
+            ['@identifier'] = player.identifier,
+            ['@job'] = player.jobName,
+            ['@job_grade'] = player.jobGrade
+        }, function()
+            RedFW.Shared.Event:triggerClientEvent('receiveJob', serverId, RedFW.Server.Components.Players.jobs:get(player.jobName), RedFW.Server.Components.Players.jobs:getGrade(player.jobName, player.jobGrade))
+        end)
+    end
 end
 
 RedFW.Server.Components.Players.jobs.new("unemployed", { --Don't touch this
@@ -44,7 +59,6 @@ RedFW.Server.Components.Players.jobs.new("unemployed", { --Don't touch this
         }
     }
 })
-
 
 -- RedFW.Server.Components.Players.jobs.new("police", {
 --     label = "Policier",
@@ -68,5 +82,6 @@ RedFW.Server.Components.Players.jobs.new("unemployed", { --Don't touch this
 --     }
 -- })
 
--- local job = RedFW.Server.Components.Players.jobs:get("police")
--- job:getGrade("recrue")
+RegisterCommand('setJob', function(source, args)
+    RedFW.Server.Components.Players.jobs:setJobPlayer(tonumber(args[1]), args[2], args[3])
+end)

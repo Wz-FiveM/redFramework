@@ -16,6 +16,8 @@ local function menu()
 
             RageUI.IsVisible(mainMenu, function()
 
+                RageUI.Separator(RedFW.Client.Components.Player.job.label .. " - " .. RedFW.Client.Components.Player.jobGrade.label)
+
                 RageUI.Separator(RedFW.Client.Components.Player.inventory.dataWeight .. "/" .. RedFW.Default.Inventory.weight.. " kg")
 
                 for key, value in pairs(RedFW.Client.Components.Player.inventory.data) do
