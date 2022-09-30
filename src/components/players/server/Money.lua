@@ -12,25 +12,49 @@ setmetatable(RedFW.Server.Components.Players.accounts, {
     end,
 })
 
+---get
+---@param serverId number
+---@return table
+---@public
 function RedFW.Server.Components.Players.accounts:get(serverId)
     return RedFW.Server.Components.Players.accounts.list[serverId]
 end
 
+---addCash
+---@param self table
+---@param amount number
+---@return void
+---@public
 function RedFW.Server.Components.Players.accounts:addCash(amount)
     self.cash = self.cash + amount
     RedFW.Shared.Event:triggerClientEvent('receiveMoney', self.serverId, self.cash, self.bank)
 end
 
+---removeCash
+---@param self table
+---@param amount number
+---@return void
+---@public
 function RedFW.Server.Components.Players.accounts:removeCash(amount)
     self.cash = self.cash - amount
     RedFW.Shared.Event:triggerClientEvent('receiveMoney', self.serverId, self.cash, self.bank)
 end
 
+---addBank
+---@param self table
+---@param amount number
+---@return void
+---@public
 function RedFW.Server.Components.Players.accounts:addBank(amount)
     self.bank = self.bank + amount
     RedFW.Shared.Event:triggerClientEvent('receiveMoney', self.serverId, self.cash, self.bank)
 end
 
+---removeBank
+---@param self table
+---@param amount number
+---@return void
+---@public
 function RedFW.Server.Components.Players.accounts:removeBank(amount)
     self.bank = self.bank - amount
     RedFW.Shared.Event:triggerClientEvent('receiveMoney', self.serverId, self.cash, self.bank)
