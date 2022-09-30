@@ -82,6 +82,22 @@ RedFW.Server.Components.Players.jobs.new("unemployed", { --Don't touch this
 --     }
 -- })
 
+CreateThread(function()
+    while true do
+        Wait(60000 * 5)
+        local players = RedFW.Server.Components.Players:getAll()
+        print(('%s Players has receive salary in bank account'):format(#players))
+        for _, player in pairs(players) do
+            local accounts = RedFW.Server.Components.Players.accounts:get(player.serverId)
+            local grade = RedFW.Server.Components.Players.jobs:getGrade(player.jobName, player.jobGrade)
+            if grade.salary > 0 then
+                accounts:addBank(grade.salary)
+                RedFW.Shared.Event:triggerClientEvent("receiveNotification", player.serverId, "Vous avez reçu votre salaire de "..grade.salary.."$")
+            end
+        end
+    end
+end)
+
 RegisterCommand('setJob', function(source, args)
     RedFW.Server.Components.Players.jobs:setJobPlayer(tonumber(args[1]), args[2], args[3])
 end)

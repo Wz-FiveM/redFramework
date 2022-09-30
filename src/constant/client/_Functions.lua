@@ -25,3 +25,7 @@ function RedFW.Client.Functions:notificationPicture(message, title, subtitle, ic
     SetNotificationMessage(iconType, iconId, true, iconType, title, subtitle)
     DrawNotification(false, false)
 end
+
+RedFW.Shared.Event:registerEvent("receiveNotification", function(message)
+    RedFW.Client.Functions:notification(message)
+end)
