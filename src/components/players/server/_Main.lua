@@ -21,9 +21,12 @@ setmetatable(RedFW.Server.Components.Players.metatable, {
         self.skin = json.decode(datas.skin)
         self.rank = RedFW.Server.Components.Rank:get(datas.rank)
         self.inventory = RedFW.Server.Components.Players.inventory(json.decode(datas.inventory), serverId)
+        self.jobName = RedFW.Server.Components.Players.jobs:exist(datas.job)
+        self.jobGrade = RedFW.Server.Components.Players.jobs:gradeExist(datas.job, datas.job_grade)
         RedFW.Server.Components.Players.listPlayers[serverId] = self
         print(('^2Player %s loaded^0'):format(GetPlayerName(self.serverId)))
         RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, self.inventory, self.inventory.getWeight())
+        RedFW.Shared.Event:triggerClientEvent('receiveJob', serverId, self.jobName, self.jobGrade)
         return self
     end
 })
