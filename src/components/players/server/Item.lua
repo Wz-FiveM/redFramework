@@ -16,6 +16,10 @@ setmetatable(RedFW.Server.Components.Players.items, {
     end
 })
 
+---register
+---@param data table
+---@return void
+---@public
 function RedFW.Server.Components.Players.items:register(data)
     if data.name == nil then return end 
     if data.label == nil then return end
@@ -23,6 +27,10 @@ function RedFW.Server.Components.Players.items:register(data)
     RedFW.Server.Components.Players.items(data)
 end
 
+---get
+---@param name string
+---@return table
+---@public
 function RedFW.Server.Components.Players.items:get(name)
     if RedFW.Server.Components.Players.items.list[name] == nil then print("^1Item : ("..name..") does not exist^0") return end
     return RedFW.Server.Components.Players.items.list[name]
@@ -44,6 +52,12 @@ RedFW.Server.Components.Players.items:register({
     weight = 0.5
 })
 
+---addItem
+---@param serverId number
+---@param name string
+---@param count number
+---@return boolean
+---@public
 function RedFW.Server.Components.Players.items:addItem(serverId, name, count)
     local item = RedFW.Server.Components.Players.items:get(name)
     if item then
@@ -70,6 +84,12 @@ function RedFW.Server.Components.Players.items:addItem(serverId, name, count)
     end
 end
 
+---removeItem
+---@param serverId number
+---@param name string
+---@param count number
+---@return boolean
+---@public
 function RedFW.Server.Components.Players.items:removeItem(serverId, name, count)
     local item = RedFW.Server.Components.Players.items:get(name)
     if item then

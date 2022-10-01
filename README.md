@@ -1,3 +1,3 @@
 # redFramework
 
-RedM Framework by Wezor And Ach
+RedM Framework by Wezor

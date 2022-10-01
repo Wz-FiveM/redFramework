@@ -19,11 +19,15 @@ setmetatable(RedFW.Server.Components.Players.metatable, {
         self.serverId = serverId
         self.identifier = datas.identifier
         self.skin = json.decode(datas.skin)
-        self.rank = RedFW.Server.Components.Rank:get(datas.rank)
+        self.rank = RedFW.Server.Components.Players.rank:getRank(datas.rank)
         self.inventory = RedFW.Server.Components.Players.inventory(json.decode(datas.inventory), serverId)
+        self.jobName = RedFW.Server.Components.Players.jobs:exist(datas.job)
+        self.jobGrade = RedFW.Server.Components.Players.jobs:gradeExist(datas.job, datas.job_grade)
+        self.account = RedFW.Server.Components.Players.accounts(serverId, datas.cash, datas.bank)
         RedFW.Server.Components.Players.listPlayers[serverId] = self
         print(('^2Player %s loaded^0'):format(GetPlayerName(self.serverId)))
         RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, self.inventory, self.inventory.getWeight())
+        RedFW.Shared.Event:triggerClientEvent('receiveJob', serverId, RedFW.Server.Components.Players.jobs:get(self.jobName), RedFW.Server.Components.Players.jobs:getGrade(self.jobName, self.jobGrade))
         return self
     end
 })
@@ -37,9 +41,11 @@ RedFW.Shared.Event:registerEvent("onPlayerLoaded", function()
             if (result[1]) then
                 RedFW.Server.Components.Players.metatable(_src, result[1])
             else
-                MySQL.Async.execute('INSERT INTO users (identifier, skin) VALUES (@identifier, @skin)', {
+                MySQL.Async.execute('INSERT INTO users (identifier, skin, job, job_grade) VALUES (@identifier, @skin, @job, @job_grade)', {
                     ['@identifier'] = GetPlayerIdentifiers(_src)[1],
-                    ['@skin'] = json.encode(RedFW.Default.Skin)
+                    ['@skin'] = json.encode(RedFW.Default.Skin),
+                    ['@job'] = RedFW.Default.Job.name,
+                    ['@job_grade'] = RedFW.Default.Job.grade
                 }, function()
                     MySQL.Async.fetchAll('SELECT * FROM users WHERE identifier = @identifier', {
                         ['@identifier'] = GetPlayerIdentifiers(_src)[1]
