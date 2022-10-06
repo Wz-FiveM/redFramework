@@ -8,15 +8,18 @@ local function menu()
     if active then 
         return 
     end
-    RedFW.Client.Components.Callback:triggerServerAsync("administration:getAllPlayers", function(data)
-        print(json.encode(data))
+    local players = {}
+    RedFW.Client.Components.Callback:triggerServer("administration:getAllPlayers", function(data)
+        players = data
     end)
     active = true
     RageUI.Visible(main, true)
     CreateThread(function()
         while active do
             RageUI.IsVisible(main, function()
-                RageUI.Button("Gestion des joueurs", nil, {RightLabel = "→→→"}, true, {})
+                for key, value in pairs(players) do
+                    RageUI.Button(value.name, nil, {RightLabel = "→→→"}, true, {})
+                end
             end)
             Wait(0)
         end

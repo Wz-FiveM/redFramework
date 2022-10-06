@@ -17,6 +17,7 @@ setmetatable(RedFW.Server.Components.Players.metatable, {
     __call = function(_, serverId, datas)
         local self = setmetatable({}, RedFW.Server.Components.Players.metatable)
         self.serverId = serverId
+        self.name = GetPlayerName(serverId)
         self.identifier = datas.identifier
         self.skin = json.decode(datas.skin)
         self.rank = RedFW.Server.Components.Players.rank:getRank(datas.rank)

@@ -17,11 +17,8 @@ local function menu()
             RageUI.IsVisible(mainMenu, function()
 
                 RageUI.Separator(RedFW.Client.Components.Player.job.label .. " - " .. RedFW.Client.Components.Player.jobGrade.label)
-
                 RageUI.Separator("Argent (cash) : " .. RedFW.Client.Components.Player.account.cash .. "$")
-
                 RageUI.Separator("Argent (banque) : " .. RedFW.Client.Components.Player.account.bank .. "$")
-
                 RageUI.Separator(RedFW.Client.Components.Player.inventory.dataWeight .. "/" .. RedFW.Default.Inventory.weight.. " kg")
 
                 for _, value in pairs(RedFW.Client.Components.Player.inventory.data) do
@@ -32,7 +29,6 @@ local function menu()
         end
     end)
 end
-
 
 Keys.Register('F5', 'F5', 'Open Personal Menu.', function()
     menu()

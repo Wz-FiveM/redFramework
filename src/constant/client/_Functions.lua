@@ -26,6 +26,12 @@ function RedFW.Client.Functions:notificationPicture(message, title, subtitle, ic
     DrawNotification(false, false)
 end
 
+function RedFW.Client.Functions:helpNotification(message)
+    BeginTextCommandDisplayHelp("STRING")
+    AddTextComponentSubstringPlayerName(message)
+    EndTextCommandDisplayHelp(0, 0, 1, -1)
+end
+
 RedFW.Shared.Event:registerEvent("receiveNotification", function(message)
     RedFW.Client.Functions:notification(message)
 end)

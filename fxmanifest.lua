@@ -41,5 +41,3 @@ client_scripts {
     "src/components/**/client/*.lua",
     "src/addons/**/client/*.lua",
 }
-
-shared_script "import.lua"
