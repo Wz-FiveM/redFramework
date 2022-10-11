@@ -10,6 +10,7 @@
 
 --]]
 
+RedFW.Shared.Event = {}
 
 ---triggerEvent
 ---@param nameEvent string

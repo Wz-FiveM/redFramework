@@ -60,28 +60,6 @@ RedFW.Server.Components.Players.jobs:new("unemployed", { --Don't touch this
     }
 })
 
--- RedFW.Server.Components.Players.jobs.new("police", {
---     label = "Policier",
---     grades = {
---         ["recrue"] = {
---             salary = 100,
---             label = "Recrue",
---         },
---         ["sergent"] = {
---             salary = 200,
---             label = "Sergent",
---         },
---         ["lieutenant"] = {
---             salary = 300,
---             label = "Lieutenant",
---         },
---         ["chef"] = {
---             salary = 400,
---             label = "Chef",
---         },
---     }
--- })
-
 CreateThread(function()
     while true do
         Wait(60000 * 5)

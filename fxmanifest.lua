@@ -22,8 +22,8 @@ shared_scripts {
 
 server_scripts {
     "@oxmysql/lib/MySQL.lua",
-    "src/constant/server/*.lua",
     "src/components/**/server/*.lua",
+    "src/constant/server/*.lua",
     "src/addons/**/server/*.lua",
 }
 
@@ -37,7 +37,7 @@ client_scripts {
     "src/vendors/RageUI/menu/items/*.lua",
     "src/vendors/RageUI/menu/panels/*.lua",
     "src/vendors/RageUI/menu/windows/*.lua",
-    "src/constant/client/*.lua",
     "src/components/**/client/*.lua",
+    "src/constant/client/*.lua",
     "src/addons/**/client/*.lua",
 }

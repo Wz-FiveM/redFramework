@@ -35,3 +35,45 @@ end
 RedFW.Shared.Event:registerEvent("receiveNotification", function(message)
     RedFW.Client.Functions:notification(message)
 end)
+
+function RedFW.Client.Functions:spawnVehicle(model, coords, heading)
+    if not IsModelValid(model) then
+        return false
+    end
+    if not HasModelLoaded(model) then
+        RequestModel(model)
+        while not HasModelLoaded(model) do
+            Wait(1)
+        end
+    end
+    local vehicle = CreateVehicle(model, coords, heading, true, false)
+    SetEntityAsMissionEntity(vehicle, true, true)
+    SetVehicleHasBeenOwnedByPlayer(vehicle, true)
+    SetModelAsNoLongerNeeded(model)
+    return vehicle
+end
+
+function RedFW.Client.Functions:deleteCurrentVehicle()
+    local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+    SetEntityAsMissionEntity(vehicle, false, false)
+    if vehicle ~= nil then
+        DeleteVehicle(vehicle)
+    end
+end
+
+
+function RedFW.Client.Functions:KeyboardInput(TextEntry, ExampleText, MaxStringLenght)
+    AddTextEntry('FMMC_KEY_TIP1', TextEntry)
+    DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP1", "", ExampleText, "", "", "", MaxStringLenght)
+    while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
+        Citizen.Wait(0)
+    end
+    if UpdateOnscreenKeyboard() ~= 2 then
+        local result = GetOnscreenKeyboardResult()
+        Citizen.Wait(500)
+        return result
+    else
+        Citizen.Wait(500)
+        return nil
+    end
+end

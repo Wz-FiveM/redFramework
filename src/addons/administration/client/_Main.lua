@@ -3,6 +3,8 @@ local active = false
 main.Closed = function()
     active = false
 end
+local actionsVehicle = RageUI.CreateSubMenu(main, "Actions véhicule", "Actions véhicule")
+local playersActions = RageUI.CreateSubMenu(main, "Actions joueur", "Actions joueur")
 
 local function menu()
     if active then 
@@ -17,6 +19,23 @@ local function menu()
     CreateThread(function()
         while active do
             RageUI.IsVisible(main, function()
+                RageUI.Button("Listes des joueurs", nil, {RightLabel = ">>"}, true, {}, playersActions)
+                RageUI.Button("Actions véhicules", nil, {RightLabel = ">>"}, true, {}, actionsVehicle)
+            end)
+            RageUI.IsVisible(actionsVehicle, function()
+                RageUI.Button("Faire apparaître un véhicule", nil, {RightLabel = ">>"}, true, {
+                    onSelected = function()
+                        local newVehicle = RedFW.Client.Functions:spawnVehicle(RedFW.Client.Functions:KeyboardInput("Nom du véhicule","", 15), GetEntityCoords(PlayerPedId()), 0.0)
+                        TaskWarpPedIntoVehicle(PlayerPedId(), newVehicle, -1)
+                    end
+                })
+                RageUI.Button("Supprimer votre véhicule", nil, {RightLabel = ">>"}, true, {
+                    onSelected = function()
+                        RedFW.Client.Functions:deleteCurrentVehicle()
+                    end
+                })
+            end)
+            RageUI.IsVisible(playersActions, function()
                 for key, value in pairs(players) do
                     RageUI.Button(value.name, nil, {RightLabel = "→→→"}, true, {})
                 end

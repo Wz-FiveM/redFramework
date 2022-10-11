@@ -7,7 +7,7 @@ RedFW.Server.Components.Callback = {}
 ---@param cb function
 ---@public
 function RedFW.Server.Components.Callback:register(eventName, cb)
-  if (type(eventName) ~= "string") then 
+  if (type(eventName) ~= "string") then
     return error(("eventName expected string, but got %s"):format(type(eventName)), 1)
   end
 
