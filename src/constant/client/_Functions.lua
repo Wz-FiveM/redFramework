@@ -26,6 +26,10 @@ function RedFW.Client.Functions:notificationPicture(title, subtitle, message, ic
     DrawNotification(false, false)
 end
 
+---helpNotification
+---@param message string
+---@return void
+---@public
 function RedFW.Client.Functions:helpNotification(message)
     BeginTextCommandDisplayHelp("STRING")
     AddTextComponentSubstringPlayerName(message)
@@ -36,6 +40,12 @@ RedFW.Shared.Event:registerEvent("receiveNotification", function(message)
     RedFW.Client.Functions:notification(message)
 end)
 
+--- Spawn a vehicle
+---@param model string
+---@param coords table
+---@param heading number
+---@return vehicle 
+---@public
 function RedFW.Client.Functions:spawnVehicle(model, coords, heading)
     if not IsModelValid(model) then
         return false
@@ -61,7 +71,12 @@ function RedFW.Client.Functions:deleteCurrentVehicle()
     end
 end
 
-
+---KeyboardInput
+---@param TextEntry string
+---@param ExampleText string
+---@param MaxInputLength number
+---@return string
+---@public
 function RedFW.Client.Functions:KeyboardInput(TextEntry, ExampleText, MaxStringLenght)
     AddTextEntry('FMMC_KEY_TIP1', TextEntry)
     DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP1", "", ExampleText, "", "", "", MaxStringLenght)
