@@ -9,3 +9,8 @@
   via any medium is strictly prohibited. This code is confidential.
 
 --]]
+
+RedFW.Shared.Event:registerEvent('setTime', function(hours, minutes)
+    NetworkOverrideClockTime(hours, minutes, 0)
+    print("^8Time set to " .. hours .. ":" .. minutes .. "^0")
+end)

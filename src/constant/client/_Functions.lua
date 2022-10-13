@@ -19,7 +19,7 @@ function RedFW.Client.Functions:notification(message)
     DrawNotification(false, false)
 end
 
-function RedFW.Client.Functions:notificationPicture(message, title, subtitle, iconType, iconId)
+function RedFW.Client.Functions:notificationPicture(title, subtitle, message, iconType, iconId)
     SetNotificationTextEntry("STRING")
     AddTextComponentString(message)
     SetNotificationMessage(iconType, iconId, true, iconType, title, subtitle)

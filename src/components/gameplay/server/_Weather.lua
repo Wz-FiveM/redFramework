@@ -34,10 +34,7 @@ CreateThread(function()
                 newWeather = value
             end
         end
-        local players = RedFW.Server.Components.Players:getAll()
-        for key, value in pairs(players) do
-            RedFW.Shared.Event:triggerClientEvent("setWeather", value.serverId, newWeather)
-        end
+        RedFW.Shared.Event:triggerClientEvent("setWeather", -1, newWeather)
         print("^8Weather set to " .. newWeather.."^0")
         RedFW.Server.Functions:file_write("resources/redFramework/src/constant/server/weather.txt", newWeather)
     end

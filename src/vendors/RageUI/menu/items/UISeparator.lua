@@ -14,8 +14,8 @@
 
 ---@type table
 local SettingsButton = {
-    Rectangle = { Y = 0, Width = 431, Height = 38 },
-    Text = { X = 8, Y = 3, Scale = 0.33 },
+    Rectangle = { Y = 0, Width = 431, Height = 32 },
+    Text = { X = 8, Y = 5, Scale = 0.265 },
 }
 
 function RageUI.Separator(Label)
@@ -23,6 +23,7 @@ function RageUI.Separator(Label)
     if CurrentMenu ~= nil then
         if CurrentMenu() then
             local Option = RageUI.Options + 1
+            RenderRectangle(CurrentMenu.X, CurrentMenu.Y + SettingsButton.Rectangle.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsButton.Rectangle.Width + CurrentMenu.WidthOffset, 1, 16, 16, 16, 130)
             if CurrentMenu.Pagination.Minimum <= Option and CurrentMenu.Pagination.Maximum >= Option then
                 if (Label ~= nil) then
                     RenderText(Label, CurrentMenu.X + SettingsButton.Text.X + (CurrentMenu.WidthOffset * 2.5 ~= 0 and CurrentMenu.WidthOffset * 2.5 or 200), CurrentMenu.Y + SettingsButton.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.Text.Scale, 245, 245, 245, 255, 1)

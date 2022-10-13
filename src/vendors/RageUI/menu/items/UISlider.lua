@@ -1,20 +1,20 @@
 ---@type table
 local SettingsButton = {
-    Rectangle = { Y = 0, Width = 431, Height = 38 },
-    Text = { X = 8, Y = 3, Scale = 0.33 },
+    Rectangle = { Y = 0, Width = 431, Height = 32 },
+    Text = { X = 8, Y = 5, Scale = 0.265 },
     LeftBadge = { Y = -2, Width = 40, Height = 40 },
     RightBadge = { X = 385, Y = -2, Width = 40, Height = 40 },
-    RightText = { X = 420, Y = 4, Scale = 0.35 },
-    SelectedSprite = { Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 38 },
+    RightText = { X = 420, Y = 7, Scale = 0.245 },
+    SelectedSprite = { Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 32 },
 }
 
 ---@type table
 local SettingsSlider = {
-    Background = { X = 250, Y = 14.5, Width = 150, Height = 9 },
-    Slider = { X = 250, Y = 14.5, Width = 75, Height = 9 },
-    Divider = { X = 323.5, Y = 9, Width = 2.5, Height = 20 },
-    LeftArrow = { Dictionary = "commonmenutu", Texture = "arrowleft", X = 235, Y = 11.5, Width = 15, Height = 15 },
-    RightArrow = { Dictionary = "commonmenutu", Texture = "arrowright", X = 400, Y = 11.5, Width = 15, Height = 15 },
+    Background = { X = 250, Y = 13, Width = 150, Height = 9 },
+    Slider = { X = 250, Y = 13, Width = 75, Height = 9 },
+    Divider = { X = 323.5, Y = 7.5, Width = 2.5, Height = 20 },
+    LeftArrow = { Dictionary = "commonmenutu", Texture = "arrowleft", X = 235, Y = 10, Width = 15, Height = 15 },
+    RightArrow = { Dictionary = "commonmenutu", Texture = "arrowright", X = 400, Y = 10, Width = 15, Height = 15 },
 }
 
 function RageUI.Slider(Label, ProgressStart, ProgressMax, Description, Divider, Style, Enabled, Actions)

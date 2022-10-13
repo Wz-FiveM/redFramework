@@ -1,11 +1,11 @@
 ---@type table
 local SettingsButton = {
-    Rectangle = { Y = 0, Width = 431, Height = 38 },
-    Text = { X = 8, Y = 3, Scale = 0.33 },
+    Rectangle = { Y = 0, Width = 431, Height = 32 },
+    Text = { X = 8, Y = 5, Scale = 0.265 },
     LeftBadge = { Y = -2, Width = 40, Height = 40 },
     RightBadge = { X = 385, Y = -2, Width = 40, Height = 40 },
-    RightText = { X = 420, Y = 4, Scale = 0.35 },
-    SelectedSprite = { Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 38 },
+    RightText = { X = 420, Y = 6, Scale = 0.245 },
+    SelectedSprite = { Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 32 },
 }
 
 ---ButtonWithStyle
@@ -43,6 +43,7 @@ function RageUI.Button(Label, Description, Style, Enabled, Action, Submenu)
                     RenderSprite(SettingsButton.SelectedSprite.Dictionary, SettingsButton.SelectedSprite.Texture, CurrentMenu.X, CurrentMenu.Y + SettingsButton.SelectedSprite.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsButton.SelectedSprite.Width + CurrentMenu.WidthOffset, SettingsButton.SelectedSprite.Height)
                 end
             end
+            RenderRectangle(CurrentMenu.X, CurrentMenu.Y + SettingsButton.Rectangle.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsButton.Rectangle.Width + CurrentMenu.WidthOffset, 1, 16, 16, 16, 130)
             if Enabled then
                 if haveLeftBadge then
                     if (Style.LeftBadge ~= nil) then
@@ -83,10 +84,9 @@ function RageUI.Button(Label, Description, Style, Enabled, Action, Submenu)
                     local Audio = RageUI.Settings.Audio
                     RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
                     if (Action.onSelected ~= nil) then
-                        Citizen.CreateThread(function()
-                            Action.onSelected();
-                        end)
+                        Action.onSelected();
                     end
+
                     if Submenu and Submenu() then
                         RageUI.NextMenu = Submenu
                     end

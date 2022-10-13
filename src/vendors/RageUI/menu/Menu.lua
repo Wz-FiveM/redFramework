@@ -18,7 +18,6 @@
 ---@return RageUIMenus
 ---@public
 function RageUI.CreateMenu(Title, Subtitle, X, Y, TextureDictionary, TextureName, R, G, B, A)
-
     ---@type table
     local Menu = {}
     Menu.Display = {};
@@ -35,19 +34,19 @@ function RageUI.CreateMenu(Title, Subtitle, X, Y, TextureDictionary, TextureName
 
     Menu.Title = Title or ""
     Menu.TitleFont = 1
-    Menu.TitleScale = 1.2
-    Menu.Subtitle = string.upper(Subtitle) or nil
+    Menu.TitleScale = 0.8
+    Menu.Subtitle = (Subtitle) or nil
     Menu.SubtitleHeight = -37
     Menu.Description = nil
     Menu.DescriptionHeight = RageUI.Settings.Items.Description.Background.Height
-    Menu.X = X or 0
-    Menu.Y = Y or 0
+    Menu.X = X or 14
+    Menu.Y = Y or 175
     Menu.Parent = nil
     Menu.WidthOffset = RageUI.UI.Style[RageUI.UI.Current].Width
     Menu.Open = false
     Menu.Controls = RageUI.Settings.Controls
     Menu.Index = 1
-    Menu.Sprite = { Dictionary = TextureDictionary or "commonmenu", Texture = TextureName or "interaction_bgd", Color = { R = R, G = G, B = B, A = A } }
+    Menu.Sprite = { Dictionary = TextureDictionary or "wezor", Texture = TextureName or "interaction_bgd", Color = { R = R, G = G, B = B, A = A } }
     Menu.Rectangle = nil
     Menu.Pagination = { Minimum = 1, Maximum = 10, Total = 10 }
     Menu.Safezone = true

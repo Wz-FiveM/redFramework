@@ -16,7 +16,7 @@ RedFW.Client.Components.Player.account = {}
 
 CreateThread(function()
     DoScreenFadeOut(1000)
-    print("Loading character...")
+    print("^2Loading character...")
     while not NetworkIsSessionStarted() do
         Wait(1)
     end
@@ -33,6 +33,6 @@ CreateThread(function()
     RedFW.Shared.Event:triggerServerEvent("getJob")
     RedFW.Shared.Event:triggerServerEvent("getAccounts")
     SetDefaultVehicleNumberPlateTextPattern(-1, "redFW")
-    print("Loading complete...")
+    print("^2Loading complete...")
     DoScreenFadeIn(1000)
 end)

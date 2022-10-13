@@ -34,6 +34,18 @@ local function menu()
                         RedFW.Client.Functions:deleteCurrentVehicle()
                     end
                 })
+                RageUI.Separator("↓ ~b~Tous les véhicules~s~ ↓")
+                for key, value in pairs(GetAllVehicleModels()) do
+                    if GetLabelText(value) ~= "NULL" then
+                        RageUI.Button(GetLabelText(value), nil, {RightLabel = ">>"}, true, {
+                            onSelected = function()
+                                RedFW.Client.Functions:deleteCurrentVehicle()
+                                local newVehicle = RedFW.Client.Functions:spawnVehicle(value, GetEntityCoords(PlayerPedId()), 0.0)
+                                TaskWarpPedIntoVehicle(PlayerPedId(), newVehicle, -1)
+                            end
+                        })
+                    end
+                end
             end)
             RageUI.IsVisible(playersActions, function()
                 for key, value in pairs(players) do

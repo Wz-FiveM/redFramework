@@ -12,8 +12,6 @@
 --- @see RageUI
 ---
 
-print("^4RageUI - https://github.com/iTexZoz/RageUI - OpenSource Advanced UI Api^0")
-
 function math.round(num, numDecimalPlaces)
     return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
 end
@@ -262,17 +260,17 @@ RageUI.Settings = {
     Items = {
         Title = {
             Background = { Width = 431, Height = 107 },
-            Text = { X = 215, Y = 20, Scale = 1.15 },
+            Text = { X = 215, Y = 25, Scale = 1.15 },
         },
         Subtitle = {
             Background = { Width = 431, Height = 37 },
-            Text = { X = 8, Y = 3, Scale = 0.35 },
-            PreText = { X = 425, Y = 3, Scale = 0.35 },
+            Text = { X = 8, Y = 5, Scale = 0.265 },
+            PreText = { X = 425, Y = 6, Scale = 0.265 },
         },
         Background = { Dictionary = "commonmenu", Texture = "gradient_bgd", Y = 0, Width = 431 },
         Navigation = {
             Rectangle = { Width = 431, Height = 18 },
-            Offset = 5,
+            Offset = 8,
             Arrows = { Dictionary = "commonmenu", Texture = "shop_arrows_upanddown", X = 190, Y = -6, Width = 50, Height = 50 },
         },
         Description = {
@@ -348,6 +346,11 @@ function RageUI.GetSafeZoneBounds()
     return { X = math.round(SafeSize * ((W / H) * 5.4)), Y = math.round(SafeSize * 5.4) }
 end
 
+---Visible
+---@param Menu string
+---@param Value function
+---@return void
+---@public
 function RageUI.Visible(Menu, Value)
     if Menu ~= nil and Menu() then
         if Value == true or Value == false then
@@ -402,10 +405,12 @@ function RageUI.Banner()
             RageUI.ItemsSafeZone(CurrentMenu)
             if CurrentMenu.Sprite ~= nil then
                 if CurrentMenu.Sprite.Dictionary ~= nil then
-                    if CurrentMenu.Sprite.Dictionary == "commonmenu" then
+                    if CurrentMenu.Sprite.Dictionary ~= "wezor" then
+                        CurrentMenu.Display.Glare = false
                         RenderSprite(CurrentMenu.Sprite.Dictionary, CurrentMenu.Sprite.Texture, CurrentMenu.X, CurrentMenu.Y, RageUI.Settings.Items.Title.Background.Width + CurrentMenu.WidthOffset, RageUI.Settings.Items.Title.Background.Height, CurrentMenu.Sprite.Color.R,CurrentMenu.Sprite.Color.G,CurrentMenu.Sprite.Color.B,CurrentMenu.Sprite.Color.A)
                     else
-                        RenderSprite(CurrentMenu.Sprite.Dictionary, CurrentMenu.Sprite.Texture, CurrentMenu.X, CurrentMenu.Y, RageUI.Settings.Items.Title.Background.Width + CurrentMenu.WidthOffset, RageUI.Settings.Items.Title.Background.Height, nil)
+                        RenderRectangle(CurrentMenu.X, CurrentMenu.Y, RageUI.Settings.Items.Title.Background.Width + CurrentMenu.WidthOffset, RageUI.Settings.Items.Title.Background.Height, 16, 16, 16 ,255)
+                        --RenderSprite(CurrentMenu.Sprite.Dictionary, CurrentMenu.Sprite.Texture, CurrentMenu.X, CurrentMenu.Y, RageUI.Settings.Items.Title.Background.Width + CurrentMenu.WidthOffset, RageUI.Settings.Items.Title.Background.Height, nil)
                     end
                 else
                     RenderRectangle(CurrentMenu.X, CurrentMenu.Y, RageUI.Settings.Items.Title.Background.Width + CurrentMenu.WidthOffset, RageUI.Settings.Items.Title.Background.Height, CurrentMenu.Rectangle.R, CurrentMenu.Rectangle.G, CurrentMenu.Rectangle.B, CurrentMenu.Rectangle.A)
@@ -428,8 +433,8 @@ function RageUI.Banner()
                 })
                 DrawScaleformMovie(ScaleformMovie, GlareX, GlareY, Glarewidth / 430, Glareheight / 100, 255, 255, 255, 255, 0)
             end
-            RenderText(CurrentMenu.Title, CurrentMenu.X + RageUI.Settings.Items.Title.Text.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + RageUI.Settings.Items.Title.Text.Y, CurrentMenu.TitleFont, CurrentMenu.TitleScale, 255, 255, 255, 255, 1)
-            RageUI.ItemOffset = RageUI.ItemOffset + RageUI.Settings.Items.Title.Background.Height
+            RenderText(CurrentMenu.Title, CurrentMenu.X + RageUI.Settings.Items.Title.Text.X + (CurrentMenu.WidthOffset / 2) - 180, CurrentMenu.Y + RageUI.Settings.Items.Title.Text.Y, CurrentMenu.TitleFont, CurrentMenu.TitleScale, 255, 255, 255, 255)
+            RageUI.ItemOffset = RageUI.ItemOffset + RageUI.Settings.Items.Title.Background.Height + 2
         end
     end
 end
@@ -440,7 +445,7 @@ function RageUI.Subtitle()
         if CurrentMenu() and (CurrentMenu.Display.Subtitle) then
             RageUI.ItemsSafeZone(CurrentMenu)
             if CurrentMenu.Subtitle ~= "" then
-                RenderRectangle(CurrentMenu.X, CurrentMenu.Y + RageUI.ItemOffset, RageUI.Settings.Items.Subtitle.Background.Width + CurrentMenu.WidthOffset, RageUI.Settings.Items.Subtitle.Background.Height + CurrentMenu.SubtitleHeight, 0, 0, 0, 255)
+                RenderRectangle(CurrentMenu.X, CurrentMenu.Y + RageUI.ItemOffset, RageUI.Settings.Items.Subtitle.Background.Width + CurrentMenu.WidthOffset, RageUI.Settings.Items.Subtitle.Background.Height + CurrentMenu.SubtitleHeight, 16, 16, 16, 255)
                 RenderText(CurrentMenu.PageCounterColour .. CurrentMenu.Subtitle, CurrentMenu.X + RageUI.Settings.Items.Subtitle.Text.X, CurrentMenu.Y + RageUI.Settings.Items.Subtitle.Text.Y + RageUI.ItemOffset, 0, RageUI.Settings.Items.Subtitle.Text.Scale, 245, 245, 245, 255, nil, false, false, RageUI.Settings.Items.Subtitle.Background.Width + CurrentMenu.WidthOffset)
                 if CurrentMenu.Index > CurrentMenu.Options or CurrentMenu.Index < 0 then
                     CurrentMenu.Index = 1
@@ -475,7 +480,7 @@ function RageUI.Background()
         if CurrentMenu() and (CurrentMenu.Display.Background) then
             RageUI.ItemsSafeZone(CurrentMenu)
             SetScriptGfxDrawOrder(0)
-            RenderSprite(RageUI.Settings.Items.Background.Dictionary, RageUI.Settings.Items.Background.Texture, CurrentMenu.X, CurrentMenu.Y + RageUI.Settings.Items.Background.Y + CurrentMenu.SubtitleHeight, RageUI.Settings.Items.Background.Width + CurrentMenu.WidthOffset, RageUI.ItemOffset, 0, 0, 0, 0, 255)
+            RenderRectangle(CurrentMenu.X, CurrentMenu.Y, RageUI.Settings.Items.Background.Width + CurrentMenu.WidthOffset, RageUI.ItemOffset, 16, 16, 16, 130)
             SetScriptGfxDrawOrder(1)
         end
     end
@@ -487,9 +492,8 @@ function RageUI.Description()
     if CurrentMenu ~= nil and CurrentMenu.Description ~= nil then
         if CurrentMenu() then
             RageUI.ItemsSafeZone(CurrentMenu)
-            RenderRectangle(CurrentMenu.X, CurrentMenu.Y + Description.Bar.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, Description.Bar.Width + CurrentMenu.WidthOffset, Description.Bar.Height, 0, 0, 0, 255)
-            RenderSprite(Description.Background.Dictionary, Description.Background.Texture, CurrentMenu.X, CurrentMenu.Y + Description.Background.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, Description.Background.Width + CurrentMenu.WidthOffset, CurrentMenu.DescriptionHeight, 0, 0, 0, 255)
-            RenderText(CurrentMenu.Description, CurrentMenu.X + Description.Text.X, CurrentMenu.Y + Description.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, Description.Text.Scale, 255, 255, 255, 255, nil, false, false, Description.Background.Width + CurrentMenu.WidthOffset - 8.0)
+            RenderRectangle(CurrentMenu.X, CurrentMenu.Y + Description.Bar.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, Description.Bar.Width + CurrentMenu.WidthOffset, CurrentMenu.DescriptionHeight, 16, 16, 16, 165)
+            RenderText(CurrentMenu.Description, CurrentMenu.X + Description.Text.X, CurrentMenu.Y + Description.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset + 2, 0, 0.265, 255, 255, 255, 255, nil, false, false, Description.Background.Width + CurrentMenu.WidthOffset - 8.0)
             RageUI.ItemOffset = RageUI.ItemOffset + CurrentMenu.DescriptionHeight + Description.Bar.Y
         end
     end

@@ -1,11 +1,11 @@
 ---@type table
 local SettingsButton = {
-    Rectangle = { Y = 0, Width = 431, Height = 38 },
-    Text = { X = 8, Y = 3, Scale = 0.33 },
+    Rectangle = { Y = 0, Width = 431, Height = 32 },
+    Text = { X = 8, Y = 5, Scale = 0.265 },
     LeftBadge = { Y = -2, Width = 40, Height = 40 },
     RightBadge = { X = 385, Y = -2, Width = 40, Height = 40 },
-    RightText = { X = 420, Y = 4, Scale = 0.35 },
-    SelectedSprite = { Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 38 },
+    RightText = { X = 420, Y = 6, Scale = 0.245 },
+    SelectedSprite = { Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 32 },
 }
 
 ---@type table
@@ -18,7 +18,7 @@ local SettingsCheckbox = {
         "shop_box_crossb", -- 5
         "shop_box_cross", -- 6
     },
-    X = 380, Y = -6, Width = 50, Height = 50
+    X = 390, Y = -2, Width = 35, Height = 35
 }
 
 RageUI.CheckboxStyle = {
@@ -59,6 +59,9 @@ function RageUI.Checkbox(Label, Description, Checked, Style, Actions)
     local CurrentMenu = RageUI.CurrentMenu;
     if CurrentMenu ~= nil then
         if CurrentMenu() then
+
+            RenderRectangle(CurrentMenu.X, CurrentMenu.Y + SettingsButton.Rectangle.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsButton.Rectangle.Width + CurrentMenu.WidthOffset, 1, 16, 16, 16, 130)
+
 
             ---@type number
             local Option = RageUI.Options + 1
