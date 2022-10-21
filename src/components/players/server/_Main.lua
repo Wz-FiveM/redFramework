@@ -42,11 +42,13 @@ RedFW.Shared.Event:registerEvent("onPlayerLoaded", function()
             if (result[1]) then
                 RedFW.Server.Components.Players.metatable(_src, result[1])
             else
-                MySQL.Async.execute('INSERT INTO users (identifier, skin, job, job_grade) VALUES (@identifier, @skin, @job, @job_grade)', {
+                MySQL.Async.execute('INSERT INTO users (identifier, skin, job, job_grade, cash, bank) VALUES (@identifier, @skin, @job, @job_grade, @cash, @bank)', {
                     ['@identifier'] = GetPlayerIdentifiers(_src)[1],
                     ['@skin'] = json.encode(RedFW.Default.Skin),
                     ['@job'] = RedFW.Default.Job.name,
-                    ['@job_grade'] = RedFW.Default.Job.grade
+                    ['@job_grade'] = RedFW.Default.Job.grade,
+                    ["@cash"] = json.encode(RedFW.Default.Accounts["cash"]),
+                    ["@bank"] = json.encode(RedFW.Default.Accounts["bank"])
                 }, function()
                     MySQL.Async.fetchAll('SELECT * FROM users WHERE identifier = @identifier', {
                         ['@identifier'] = GetPlayerIdentifiers(_src)[1]

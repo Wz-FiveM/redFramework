@@ -119,3 +119,7 @@ RegisterCommand('addItem', function(source, args)
     local count = tonumber(args[3])
     RedFW.Server.Components.Players.items:addItem(_src, item, count)
 end)
+
+RedFW.Shared.Event:registerEvent("loadItem", function()
+    RedFW.Shared.Event:triggerClientEvent("loadItem", source, RedFW.Server.Components.Players.items:getAll())
+end)

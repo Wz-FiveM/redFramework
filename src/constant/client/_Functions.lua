@@ -40,7 +40,7 @@ RedFW.Shared.Event:registerEvent("receiveNotification", function(message)
     RedFW.Client.Functions:notification(message)
 end)
 
---- Spawn a vehicle
+---spawnVehicle
 ---@param model string
 ---@param coords table
 ---@param heading number

@@ -12,6 +12,10 @@
 
 RedFW = {
   Default = {
+    Accounts = {
+      ["cash"] = 0,
+      ["bank"] = 0
+    },
     Job = {
       name = "unemployed",
       grade = "unemployed"

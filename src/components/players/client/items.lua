@@ -25,6 +25,8 @@ RedFW.Shared.Event:registerEvent("loadItem", function(itemList)
     RedFW.Client.Components.Player.items.list = itemList
 end)
 
+RedFW.Shared.Event:triggerServerEvent("loadItem")
+
 RedFW.Shared.Event:registerEvent("registerItem", function(item)
     RedFW.Client.Components.Player.items.list[item.name] = item
 end)
