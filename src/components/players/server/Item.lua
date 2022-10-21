@@ -77,6 +77,7 @@ function RedFW.Server.Components.Players.items:addItem(serverId, name, count)
                 RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, inventory, inventory.getWeight())
                 return true
             else
+                RedFW.Shared.Event:triggerClientEvent('receiveNotification', serverId, "~r~You can't carry more")
                 print("^1The player cannot receive this amount as it will exceed the maximum item limit on being.^0")
                 return false
             end
@@ -102,10 +103,12 @@ function RedFW.Server.Components.Players.items:removeItem(serverId, name, count)
                     RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, inventory, inventory.getWeight())
                     return true
                 else
+                    RedFW.Shared.Event:triggerClientEvent('receiveNotification', serverId, "~r~You don't have enough")
                     print("^1You don't have enough items^0")
                     return false
                 end
             else
+                RedFW.Shared.Event:triggerClientEvent('receiveNotification', serverId, "~r~You don't have this item")
                 print("^1You don't have this item^0")
                 return false
             end
