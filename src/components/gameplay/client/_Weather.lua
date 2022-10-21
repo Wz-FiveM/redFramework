@@ -1,7 +1,11 @@
+local currentWeather = 0
 RedFW.Shared.Event:registerEvent("setWeather", function(weather)
+    SetWeatherTypeOverTime(currentWeather, 15.0)
+    Citizen.Wait(15000)
     SetWeatherTypePersist(weather)
     SetWeatherTypeNow(weather)
     SetWeatherTypeNowPersist(weather)
+    currentWeather = weather
     print("^2Weather set to " .. weather.."^0")
     local allWeather = {
         ["EXTRASUNNY"] = "Grand soleil",
@@ -28,9 +32,12 @@ end)
 
 CreateThread(function()
     RedFW.Client.Components.Callback:triggerServer('getWeather', function(weather)
+        SetWeatherTypeOverTime(currentWeather, 15.0)
+        Citizen.Wait(15000)
         SetWeatherTypePersist(weather)
         SetWeatherTypeNow(weather)
         SetWeatherTypeNowPersist(weather)
+        currentWeather = weather
         print("^2Weather set to " .. weather.."^0")
         local allWeather = {
             ["EXTRASUNNY"] = "Grand soleil",
