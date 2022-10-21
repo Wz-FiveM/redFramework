@@ -28,6 +28,15 @@ server_scripts {
 }
 
 client_scripts {
+    --[[
+        IPL
+    ]]
+    "src/vendors/Bob74/lib/**/*.lua",
+    "src/vendors/Bob74/client.lua",
+    "src/vendors/Bob74/**/*.lua",
+    --[[
+        RageUI
+    ]]--
     "src/vendors/RageUI/RMenu.lua",
     "src/vendors/RageUI/menu/RageUI.lua",
     "src/vendors/RageUI/menu/Menu.lua",
@@ -37,6 +46,9 @@ client_scripts {
     "src/vendors/RageUI/menu/items/*.lua",
     "src/vendors/RageUI/menu/panels/*.lua",
     "src/vendors/RageUI/menu/windows/*.lua",
+    --[[
+        RedFramework
+    ]]--
     "src/components/**/client/*.lua",
     "src/constant/client/*.lua",
     "src/addons/**/client/**/*.lua",

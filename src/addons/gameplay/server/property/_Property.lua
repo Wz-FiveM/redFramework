@@ -12,6 +12,14 @@ setmetatable(RedFW.Server.Addons.Property, {
         self.positionOutside = self.data.positionOutside
         self.positionInside = self.data.positionInside
         self.chestPosition = self.data.chestPosition
+        if data.positionOutsideGarage ~= "" then
+            self.positionOutsideGarage = self.data.positionOutsideGarage
+            self.positionInsideGarage = self.data.positionInsideGarage
+            self.places = self.data.places
+            RedFW.Server.Components.Zone:add(vector3(json.decode(self.positionOutsideGarage).x, json.decode(self.positionOutsideGarage).y, json.decode(self.positionOutsideGarage).z), function(source)
+                RedFW.Shared.Event:triggerClientEvent("loadProperty", source, self)
+            end)
+        end
         self.owner = self.data.owner
         self.price = self.data.price
         self.save = function()
@@ -90,25 +98,29 @@ end
 
 function RedFW.Server.Addons.Property:removeItem(item, count)
     if self.chest[item] then
-        if self.chest[item].count - count <= 0 then
-            self.chest[item] = nil
-        else
+        if self.chest[item].count >= count then
             self.chest[item].count = self.chest[item].count - count
+            if self.chest[item].count == 0 then
+                self.chest[item] = nil
+            end
+            self.save()
+            RedFW.Shared.Event:triggerClientEvent("receivePropertyChest", -1, self.name, self.chest)
         end
-        self.save()
-        RedFW.Shared.Event:triggerClientEvent("receivePropertyChest", -1, self.name, self.chest)
     end
 end
-
 
 RedFW.Shared.Event:registerEvent('privateInventory:interact', function(data)
     local _src = source
     if data.action == "add" then
-        RedFW.Server.Components.Players.items:removeItem(_src, data.nameItem, data.count)
-        RedFW.Server.Addons.Property:get(data.name):addItem(data.nameItem, data.count)
+        local canAdd = RedFW.Server.Components.Players.items:removeItem(_src, data.nameItem, data.count)
+        if canAdd then
+            RedFW.Server.Addons.Property:get(data.name):addItem(data.nameItem, data.count)
+        end
     elseif data.action == "remove" then
-        RedFW.Server.Components.Players.items:addItem(_src, data.nameItem, data.count)
-        RedFW.Server.Addons.Property:get(data.name):removeItem(data.nameItem, data.count)
+        local canRemove = RedFW.Server.Addons.Property:get(data.name):removeItem(data.nameItem, data.count)
+        if canRemove then
+            RedFW.Server.Components.Players.items:addItem(_src, data.nameItem, data.count)
+        end
     end
 end)
 
