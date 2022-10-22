@@ -105,21 +105,23 @@ function RedFW.Server.Addons.Property:removeItem(item, count)
             end
             self.save()
             RedFW.Shared.Event:triggerClientEvent("receivePropertyChest", -1, self.name, self.chest)
+            return true
         end
     end
 end
 
 RedFW.Shared.Event:registerEvent('privateInventory:interact', function(data)
     local _src = source
+    local player = RedFW.Server.Components.Players:get(_src)
     if data.action == "add" then
-        local canAdd = RedFW.Server.Components.Players.items:removeItem(_src, data.nameItem, data.count)
+        local canAdd = player.inventory:removeItem(data.nameItem, data.count)
         if canAdd then
             RedFW.Server.Addons.Property:get(data.name):addItem(data.nameItem, data.count)
         end
     elseif data.action == "remove" then
-        local canRemove = RedFW.Server.Addons.Property:get(data.name):removeItem(data.nameItem, data.count)
+        local canRemove = RedFW.Server.Addons.Property:get(data.name):removeItem(data.nameItem, tonumber(data.count))
         if canRemove then
-            RedFW.Server.Components.Players.items:addItem(_src, data.nameItem, data.count)
+            player.inventory:addItem(data.nameItem, data.count)
         end
     end
 end)

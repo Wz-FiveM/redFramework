@@ -18,6 +18,7 @@ shared_scripts {
     "config.lua",
     "src/constant/shared/*.lua",
     "src/components/**/shared/*.lua",
+    "src/addons/**/shared/**/*.lua",
 }
 
 server_scripts {

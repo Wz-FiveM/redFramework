@@ -66,10 +66,10 @@ CreateThread(function()
         local players = RedFW.Server.Components.Players:getAll()
         print(('%s Players has receive salary in bank account'):format(#players))
         for _, player in pairs(players) do
-            local accounts = RedFW.Server.Components.Players.accounts:get(player.serverId)
+            local players = RedFW.Server.Components.Players:get(player.serverId)
             local grade = RedFW.Server.Components.Players.jobs:getGrade(player.jobName, player.jobGrade)
             if grade.salary > 0 then
-                accounts:addBank(grade.salary)
+                players.account:addBank(grade.salary)
                 RedFW.Shared.Event:triggerClientEvent("receiveNotification", player.serverId, "Vous avez reçu votre salaire de "..grade.salary.."$")
             end
         end

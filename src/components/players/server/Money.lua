@@ -16,8 +16,8 @@ setmetatable(RedFW.Server.Components.Players.accounts, {
 ---@param serverId number
 ---@return table
 ---@public
-function RedFW.Server.Components.Players.accounts:get(serverId)
-    return RedFW.Server.Components.Players.accounts.list[serverId]
+function RedFW.Server.Components.Players.accounts:get()
+    return RedFW.Server.Components.Players.accounts.list[self.serverId]
 end
 
 ---addCash
@@ -38,6 +38,14 @@ end
 function RedFW.Server.Components.Players.accounts:removeCash(amount)
     self.cash = self.cash - amount
     RedFW.Shared.Event:triggerClientEvent('receiveMoney', self.serverId, self.cash, self.bank)
+end
+
+---getCash
+---@param self table
+---@return void
+---@public
+function RedFW.Server.Components.Players.accounts:getCash()
+    return self.cash
 end
 
 ---addBank
@@ -62,6 +70,6 @@ end
 
 RedFW.Shared.Event:registerEvent('getAccounts', function()
     local _src = source
-    local account = RedFW.Server.Components.Players.accounts:get(_src)
-    RedFW.Shared.Event:triggerClientEvent('receiveAccounts', _src, account)
+    local player = RedFW.Server.Components.Players:get(_src)
+    RedFW.Shared.Event:triggerClientEvent('receiveAccounts', _src, player.account:get())
 end)
