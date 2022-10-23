@@ -46,6 +46,22 @@ setmetatable(RedFW.Server.Components.Players.inventory, {
                 RedFW.Shared.Event:triggerClientEvent('receiveNotification', self.serverId, 'Cet item n\'existe pas')
             end
         end
+
+        function self:removeItem(name, count)
+            if (self.inventory[name]) then
+                if (self.inventory[name].count - count > 0) then
+                    self.inventory[name].count = self.inventory[name].count - count
+                else
+                    self.inventory[name] = nil
+                end
+                MySQL.Async.execute('UPDATE users SET inventory = @inventory WHERE identifier = @identifier', {
+                    ['@inventory'] = json.encode(self.inventory),
+                    ['@identifier'] = RedFW.Server.Components.Players:get(self.serverId).identifier
+                })
+                RedFW.Shared.Event:triggerClientEvent('receiveInventory', self.serverId, self, self:getWeight())
+            end
+        end
+
         return self
     end
 })
