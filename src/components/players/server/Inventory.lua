@@ -1,102 +1,65 @@
 RedFW.Server.Components.Players.inventory = {}
 RedFW.Server.Components.Players.inventory.list = {}
+RedFW.Server.Components.Players.inventory.__index = RedFW.Server.Components.Players.inventory
 
 setmetatable(RedFW.Server.Components.Players.inventory, {
-    __call = function(_, data, serverId)
-
+    __call = function(_,  data, player)
         local self = setmetatable({}, RedFW.Server.Components.Players.inventory)
-        self.data = data
-        self.serverId = serverId
+        self.serverId = player
+        self.inventory = data
+        RedFW.Server.Components.Players.inventory.list[self.serverId] = self
 
-        self.save = function()
-            MySQL.Async.execute('UPDATE users SET inventory = @inventory WHERE identifier = @identifier', {
-                ['@inventory'] = json.encode(self.data),
-                ['@identifier'] = RedFW.Server.Components.Players.listPlayers[serverId].identifier
-            }, function()
-                print(('^2Inventory of %s saved^0'):format(GetPlayerName(serverId)))
-            end)
+        function self:get()
+            return self.inventory
         end
 
-        self.getWeight = function()
+        function self:getWeight()
             local weight = 0
-            for k, v in pairs(self.data) do
+            for k, v in pairs(data) do
                 weight = weight + (v.weight * v.count)
             end
             return weight
         end
 
-        function self:get()
-            return self.data
-        end
-
-        function self:getItem(name)
-            return self.data[name]
-        end
-
-        function self:addItem(name, quantity)
-            local player = RedFW.Server.Components.Players:get(self.serverId)
-            local item = RedFW.Server.Components.Players.items:get(name)
-            if item then
-                if player.inventory:getWeight() + (item.getWeight() * quantity) <= RedFW.Default.Inventory.weight then
-                    if self:getItem(name) then
-                        player.inventory:getItem(name).count = player.inventory:getItem(name).count + quantity
+        function self:addItem(itemName, count)
+            local item = RedFW.Server.Components.Players.items:get(itemName)
+            if (item) then
+                if (self:getWeight() + (item:getWeight() * count) <= RedFW.Default.Inventory.weight) then
+                    if (self.inventory[itemName]) then
+                        self.inventory[itemName].count = self.inventory[itemName].count + count
                     else
-                        player.inventory:addItem(name, quantity)
+                        self.inventory[itemName] = {
+                            count = count,
+                            label = item:getLabel(),
+                            weight = item:getWeight()
+                        }
                     end
-                    RedFW.Shared.Event:triggerClientEvent('receiveInventory', self.serverId, player.inventory, player.inventory.getWeight())
-                    self.save()
-                    return true
+                    MySQL.Async.execute('UPDATE users SET inventory = @inventory WHERE identifier = @identifier', {
+                        ['@inventory'] = json.encode(self.inventory),
+                        ['@identifier'] = RedFW.Server.Components.Players:get(self.serverId).identifier
+                    })
+                    RedFW.Shared.Event:triggerClientEvent('receiveInventory', self.serverId, self, self:getWeight())
                 else
-                    RedFW.Shared.Event:triggerClientEvent('receiveNotification', self.serverId, 'Vous n\'avez pas assez de place dans votre inventaire')
-                    return false
+                    RedFW.Shared.Event:triggerClientEvent('receiveNotification', self.serverId, 'Vous ne pouvez pas porter plus de poids')
                 end
             else
                 RedFW.Shared.Event:triggerClientEvent('receiveNotification', self.serverId, 'Cet item n\'existe pas')
-                return false
             end
         end
-
-        function self:removeItem(name, quantity)
-            local player = RedFW.Server.Components.Players:get(self.serverId)
-            local item = RedFW.Server.Components.Players.items:get(name)
-            if item then
-                if self:getItem(name) then
-                    if player.inventory:getItem(name).count - quantity >= 0 then
-                        player.inventory:getItem(name).count = player.inventory:getItem(name).count - quantity
-                        RedFW.Shared.Event:triggerClientEvent('receiveInventory', self.serverId, player.inventory, player.inventory.getWeight())
-                        self.save()
-                        return true
-                    else
-                        RedFW.Shared.Event:triggerClientEvent('receiveNotification', self.serverId, 'Vous n\'avez pas assez de cet item')
-                        return false
-                    end
-                else
-                    RedFW.Shared.Event:triggerClientEvent('receiveNotification', self.serverId, 'Vous n\'avez pas cet item')
-                    return false
-                end
-            else
-                RedFW.Shared.Event:triggerClientEvent('receiveNotification', self.serverId, 'Cet item n\'existe pas')
-                return false
-            end
-        end
-
-        RedFW.Server.Components.Players.inventory.list[serverId] = self
-
         return self
     end
 })
 
----get
----@param serverId number
----@return table
----@public
-function RedFW.Server.Components.Players.inventory:get()
-    return RedFW.Server.Components.Players.inventory.list[self.serverId]
-end
+RedFW.Shared.Event:registerEvent("getInventory", function()
+    local _src = source
+    if (_src) then
+        local player = RedFW.Server.Components.Players:get(_src)
+        if (player) then
+            RedFW.Shared.Event:triggerClientEvent("receiveInventory", _src, player.inventory, player.inventory:getWeight())
+        end
+    end
+end)
 
----getAll
----@return table
----@public
-function RedFW.Server.Components.Players.inventory:getAll()
-    return RedFW.Server.Components.Players.inventory.list
-end
+RegisterCommand('addItem', function(source, args)
+    RedFW.Server.Components.Players:get(source).inventory:addItem(args[1], tonumber(args[2]))
+end)
