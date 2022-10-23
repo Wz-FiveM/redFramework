@@ -433,7 +433,7 @@ local function showF6Menu()
                     })
                     RageUI.Button("Attribuer la propriété pour sois même", nil, {RightLabel = ">>"}, true, {
                         onSelected = function()
-                            _FrameworkClient.ToServer("giveProperty", GetPlayerServerId(PlayerId()), propertySelected.id, propertySelected.price)
+                            RedFW.Shared.Event:triggerServerEvent("property:give", GetPlayerServerId(PlayerId()), propertySelected.id, propertySelected.price)
                         end
                     })
                     RageUI.Line()

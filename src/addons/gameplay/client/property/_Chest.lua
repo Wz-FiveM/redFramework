@@ -1,7 +1,7 @@
 local _PropertyChest = {}
 
-RedFW.Shared.Event:registerEvent('receivePropertyChest', function(name, data)
-    _PropertyChest[name] = data
+RedFW.Shared.Event:registerEvent('receivePropertyChest', function(id, data)
+    _PropertyChest[id] = data
 end)
 
 local active = false
@@ -11,7 +11,7 @@ mainMenu.Closed = function()
     active = false
 end
 
-function ShowPropertyChest(nameOfProperty)
+function ShowPropertyChest(nameOfProperty, id)
     if (active) then
         return
     end
@@ -21,29 +21,31 @@ function ShowPropertyChest(nameOfProperty)
         while (active) do
             RageUI.IsVisible(mainMenu, function()
                 RageUI.Separator("↓ ~b~Items dans le coffre ~s~↓")
-                for _, value in pairs(_PropertyChest[nameOfProperty]) do
+                for item, value in pairs(_PropertyChest[id]) do
                     RageUI.Button(value.label, ('Count : %i'):format(value.count), { RightLabel = "→→→" }, true, {
                         onSelected = function()
                             RedFW.Shared.Event:triggerServerEvent('privateInventory:interact', {
                                 action = 'remove',
-                                nameItem = _,
+                                nameItem = item,
                                 label = value.label,
                                 count = RedFW.Client.Functions:KeyboardInput("Combien d'item voulez-vous retirer ?", "", 3),
                                 name = nameOfProperty,
+                                id = id
                             })
                         end
                     })
                 end
                 RageUI.Separator("↓ ~b~Items dans votre inventaire ~s~↓")
-                for _, value in pairs(RedFW.Client.Components.Player.inventory.data) do
+                for item, value in pairs(RedFW.Client.Components.Player.inventory.data) do
                     RageUI.Button(value.label, ('Count : %i | Weight : %s /U'):format(value.count, value.weight), { RightLabel = "→→→" }, true, {
                         onSelected = function()
                             RedFW.Shared.Event:triggerServerEvent('privateInventory:interact', {
                                 action = 'add',
-                                nameItem = _,
+                                nameItem = item,
                                 label = value.label,
                                 count = RedFW.Client.Functions:KeyboardInput("Combien d'item voulez-vous ajouter ?", "", 3),
                                 name = nameOfProperty,
+                                id = id
                             })
                         end
                     })

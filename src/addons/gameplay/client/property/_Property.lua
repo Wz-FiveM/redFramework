@@ -4,7 +4,7 @@ RedFW.Client.Addons.Property = {}
 RedFW.Shared.Event:registerEvent("loadProperty", function(property)
     DoScreenFadeOut(100)
     CreateThread(function()
-        RedFW.Shared.Event:triggerServerEvent('property:chest', property.name)
+        RedFW.Shared.Event:triggerServerEvent('property:chest', property.id)
         Citizen.Wait(1000)
         SetEntityCoords(PlayerPedId(), vector3(json.decode(property.positionInside).x, json.decode(property.positionInside).y, json.decode(property.positionInside).z - 0.98))
         DoScreenFadeIn(1000)
@@ -30,7 +30,7 @@ RedFW.Shared.Event:registerEvent("loadProperty", function(property)
                 DrawMarker(25, json.decode(property.chestPosition).x, json.decode(property.chestPosition).y, json.decode(property.chestPosition).z - 0.98, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 20, 192, 0, 70, false, true, 2, false, false, false, false)
                 if (distanceFromExitZone < 1.0) then
                     if (IsControlJustPressed(0, 51)) then
-                        ShowPropertyChest(property.name)
+                        ShowPropertyChest(property.name, property.id)
                     end;
                 end;
             end;
