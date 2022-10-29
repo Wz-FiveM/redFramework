@@ -27,6 +27,8 @@ setmetatable(RedFW.Server.Addons.Property, {
             self.owner = self.data.owner
         end
         self.price = self.data.price
+
+        ---@param self table
         self.save = function()
             MySQL.query('UPDATE property SET data = @data WHERE name = @name', {
                 ['@data'] = json.encode(self.data),
@@ -95,6 +97,8 @@ function RedFW.Server.Addons.Property:getChest()
     return self.chest
 end
 
+---@param item string
+---@param count number
 function RedFW.Server.Addons.Property:addItem(item, count)
     if not self.chest[item] then
         self.chest[item] = {
@@ -108,6 +112,8 @@ function RedFW.Server.Addons.Property:addItem(item, count)
     RedFW.Shared.Event:triggerClientEvent("receivePropertyChest", -1, self.name, self.chest)
 end
 
+---@param item string
+---@param count number
 function RedFW.Server.Addons.Property:removeItem(item, count)
     if self.chest[item] then
         if self.chest[item].count >= count then

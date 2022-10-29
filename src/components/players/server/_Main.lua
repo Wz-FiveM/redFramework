@@ -10,6 +10,8 @@
 
 --]]
 
+---@meta
+
 RedFW.Server.Components.Players.listPlayers = {}
 RedFW.Server.Components.Players.metatable = {}
 

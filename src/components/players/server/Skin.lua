@@ -9,3 +9,9 @@
   via any medium is strictly prohibited. This code is confidential.
 
 --]]
+
+RedFW.Server.Components.Callback:register("RedFW:Player:getSkin", function()
+    local _src = source
+    local player = RedFW.Server.Components.Player:get(_src)
+    return player.skin
+end)
