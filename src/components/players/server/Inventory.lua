@@ -7,7 +7,6 @@ setmetatable(RedFW.Server.Components.Players.inventory, {
         local self = setmetatable({}, RedFW.Server.Components.Players.inventory)
         self.serverId = player
         self.inventory = data
-        RedFW.Server.Components.Players.inventory.list[self.serverId] = self
 
         function self:get()
             return self.inventory
@@ -61,6 +60,8 @@ setmetatable(RedFW.Server.Components.Players.inventory, {
                 RedFW.Shared.Event:triggerClientEvent('receiveInventory', self.serverId, self, self:getWeight())
             end
         end
+
+        RedFW.Server.Components.Players.inventory.list[self.serverId] = self
 
         return self
     end

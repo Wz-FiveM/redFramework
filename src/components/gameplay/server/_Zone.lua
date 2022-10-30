@@ -3,10 +3,11 @@ RedFW.Server.Components.Zone.list = {}
 RedFW.Server.Components.Zone.__index = RedFW.Server.Components.Zone
 
 setmetatable(RedFW.Server.Components.Zone, {
-    __call = function (_, position, action)
+    __call = function (_, position, action, job)
         local self = setmetatable({}, RedFW.Server.Components.Zone)
         self.position = position
         self.action = action
+        self.job = job
         self.id = #RedFW.Server.Components.Zone.list + 1
         RedFW.Server.Components.Zone.list[self.id] = self
         RedFW.Shared.Event:triggerClientEvent("loadZone", -1, RedFW.Server.Components.Zone.list)
@@ -17,10 +18,11 @@ setmetatable(RedFW.Server.Components.Zone, {
 ---add
 ---@param position Vector3
 ---@param action function
+---@param job string
 ---@return void
 ---@public
-function RedFW.Server.Components.Zone:add(position, action)
-    return RedFW.Server.Components.Zone(position, action)
+function RedFW.Server.Components.Zone:add(position, action, job)
+    return RedFW.Server.Components.Zone(position, action, job)
 end
 
 ---get 

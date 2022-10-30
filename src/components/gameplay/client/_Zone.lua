@@ -9,14 +9,32 @@ CreateThread(function()
     while true do
         local inZone = false
         for _, value in pairs(allZones) do
-            local distance = #(GetEntityCoords(PlayerPedId()) - value.position)
-            if distance <= 10.0 then
-                inZone = true
-                DrawMarker(25, value.position.x, value.position.y, value.position.z - 0.98, 0, 0, 0, 0, 0, 0, 0.6, 0.6, 0.6, 0, 152, 255, 170, 0, 0, 0, 0, 0, 0, 0)
-                if distance < 2.0 then
-                    RedFW.Client.Functions:helpNotification("Appuyez sur ~INPUT_CONTEXT~ pour intéragir avec la zone")
-                    if IsControlJustPressed(0, 51) then
-                        RedFW.Shared.Event:triggerServerEvent("zoneAction", value.id)
+            if value.job ~= nil then
+                if  RedFW.Client.Components.Player.job ~= nil then
+                    if value.job == RedFW.Client.Components.Player.job.name then
+                        local distance = #(GetEntityCoords(PlayerPedId()) - value.position)
+                        if distance <= 10.0 then
+                            inZone = true
+                            DrawMarker(25, value.position.x, value.position.y, value.position.z - 0.98, 0, 0, 0, 0, 0, 0, 0.6, 0.6, 0.6, 0, 152, 255, 170, 0, 0, 0, 0, 0, 0, 0)
+                            if distance < 2.0 then
+                                RedFW.Client.Functions:helpNotification("Appuyez sur ~INPUT_CONTEXT~ pour intéragir avec la zone")
+                                if IsControlJustPressed(0, 51) then
+                                    RedFW.Shared.Event:triggerServerEvent("zoneAction", value.id)
+                                end
+                            end
+                        end
+                    end
+                end
+            else
+                local distance = #(GetEntityCoords(PlayerPedId()) - value.position)
+                if distance <= 10.0 then
+                    inZone = true
+                    DrawMarker(25, value.position.x, value.position.y, value.position.z - 0.98, 0, 0, 0, 0, 0, 0, 0.6, 0.6, 0.6, 0, 152, 255, 170, 0, 0, 0, 0, 0, 0, 0)
+                    if distance < 2.0 then
+                        RedFW.Client.Functions:helpNotification("Appuyez sur ~INPUT_CONTEXT~ pour intéragir avec la zone")
+                        if IsControlJustPressed(0, 51) then
+                            RedFW.Shared.Event:triggerServerEvent("zoneAction", value.id)
+                        end
                     end
                 end
             end

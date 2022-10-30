@@ -7,12 +7,32 @@ function RedFW.Server.Components.Players.jobs:new(name, data)
     self.name = name
     self.label = data.label
     self.grades = data.grades
+    self.money = RedFW.Server.Components.Players.jobs:getMoney(self.name)
     RedFW.Server.Components.Players.jobs.list[name] = self
+    print("^2Registered job: " .. name.."^0")
     return self
 end
 
 function RedFW.Server.Components.Players.jobs:get(jobName)
     return RedFW.Server.Components.Players.jobs.list[jobName]
+end
+
+function RedFW.Server.Components.Players.jobs:getMoney(jobName)
+    local savedMoney = json.decode(LoadResourceFile(GetCurrentResourceName(), "src/constant/server/jobsMoney.json"))
+    if savedMoney[jobName] then
+        return savedMoney[jobName]
+    end
+    savedMoney[jobName] = 0
+    SaveResourceFile(GetCurrentResourceName(), "src/constant/server/jobsMoney.json", json.encode(savedMoney), -1)
+    return 0
+end
+
+function RedFW.Server.Components.Players.jobs:saveMoney()
+    local money = {}
+    for k, v in pairs(RedFW.Server.Components.Players.jobs.list) do
+        money[k] = v.money
+    end
+    RedFW.Server.Functions:file_write("resources/redFramework/src/constant/server/jobsMoney.json", json.encode(money))
 end
 
 function RedFW.Server.Components.Players.jobs:getGrade(jobName, gradeName)

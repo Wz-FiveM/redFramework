@@ -23,8 +23,8 @@ shared_scripts {
 
 server_scripts {
     "@oxmysql/lib/MySQL.lua",
-    "src/components/**/server/*.lua",
     "src/constant/server/*.lua",
+    "src/components/**/server/*.lua",
     "src/addons/**/server/**/*.lua",
 }
 
@@ -52,5 +52,10 @@ client_scripts {
     ]]--
     "src/components/**/client/*.lua",
     "src/constant/client/*.lua",
-    "src/addons/**/client/**/*.lua",
+    "src/addons/gameplay/client/**/*.lua",
+    "src/addons/**/client/*.lua",
+}
+
+shared_script {
+    "import.lua"
 }

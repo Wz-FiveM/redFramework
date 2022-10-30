@@ -9,11 +9,7 @@ RedFW.Server.Components.Weather = {
     'CLEARING', 
     'RAIN', 
     'THUNDER', 
-    'SNOW', 
     'BLIZZARD', 
-    'SNOWLIGHT', 
-    'XMAS', 
-    'HALLOWEEN',
 }
 
 local currentWeather

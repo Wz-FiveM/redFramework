@@ -36,6 +36,7 @@ function RedFW.Server.Components.Players.items:get(name)
     return RedFW.Server.Components.Players.items.list[name]
 end
 
+---@return itemsList table
 function RedFW.Server.Components.Players.items:getAll()
     return RedFW.Server.Components.Players.items.list
 end

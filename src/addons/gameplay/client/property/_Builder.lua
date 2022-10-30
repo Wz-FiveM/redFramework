@@ -572,6 +572,8 @@ local function showF6Menu()
     end)
 end
 
-Keys.Register("F6", "F6", "Ouvrir le menu de propriété", function()
-    showF6Menu()
+RedFW.Shared.Event:registerEvent("openJobMenu", function()
+    if RedFW.Client.Components.Player.job.name == "immobilier" then
+        showF6Menu()
+    end
 end)

@@ -3,3 +3,7 @@ RedFW.Shared.Event:registerEvent("receiveJob", function(job, grade)
     RedFW.Client.Components.Player.jobGrade = grade
     print(('^2Job %s with grade %s (salary : %i$) applied^0'):format(job.label, grade.label, grade.salary))
 end)
+
+Keys.Register("F6", "job", "Open Job Menu", function()
+    RedFW.Shared.Event:triggerEvent("openJobMenu")
+end)
