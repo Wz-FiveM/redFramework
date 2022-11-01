@@ -54,13 +54,19 @@ function RedFW.Server.Components.Players.vehicles:save()
 end
 
 function RedFW.Server.Components.Players.vehicles:new(owner, props, plate, situation)
+    local newPlate = RedFW.Server.Components.Players.vehicles:generatePlate()
+    for key, value in pairs(props) do
+        if key == "plate" then
+            props[key] = newPlate
+        end
+    end
     MySQL.Async.execute("INSERT INTO `vehicles` (`owner`, `props`, `plate`, `situation`) VALUES (@owner, @props, @plate, @situation)", {
         ['@owner'] = owner,
         ['@props'] = json.encode(props),
-        ['@plate'] = RedFW.Server.Components.Players.vehicles:generatePlate(),
+        ['@plate'] = newPlate,
         ['@situation'] = situation
     }, function(id)
-        RedFW.Server.Components.Players.vehicles(id, owner, props, RedFW.Server.Components.Players.vehicles:generatePlate(), situation)
+        RedFW.Server.Components.Players.vehicles(id, owner, props, newPlate, situation)
     end)
 end
 
@@ -89,4 +95,23 @@ RedFW.Server.Components.Callback:register("getVehicleList", function(source)
         end
     end
     return vehicles
+end)
+
+RedFW.Server.Components.Callback:register("changeVehicleSituation", function(source, id, situation, props)
+    local vehicle = RedFW.Server.Components.Players.vehicles:get(id)
+    if vehicle then
+        vehicle.situation = situation
+        if props ~= nil then
+            vehicle.props = props
+        end
+        vehicle:save()
+        local player = RedFW.Server.Components.Players:get(source)
+        local vehicles = {}
+        for k, v in pairs(RedFW.Server.Components.Players.vehicles.list) do
+            if v.owner == player.identifier then
+                table.insert(vehicles, v)
+            end
+        end
+        return vehicles
+    end
 end)
