@@ -9,7 +9,8 @@ RedFW.Server.Components.Players.jobs:new("cardealer", {
             salary = 75,
             label = "Concessionnaire - Patron",
         },
-    }
+    },
+    positionBoss = vec3(-799.595581, -231.309891, 37.148682)
 })
 
 RedFW.Server.Components.Zone:add(vec3(-797.301086, -235.978027, 37.098145), function(source)

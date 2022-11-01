@@ -8,6 +8,20 @@ function RedFW.Server.Components.Players.jobs:new(name, data)
     self.label = data.label
     self.grades = data.grades
     self.money = RedFW.Server.Components.Players.jobs:getMoney(self.name)
+    if data.positionBoss ~= nil then
+        RedFW.Server.Components.Zone:add(data.positionBoss, function(src)
+            local membres = {}
+            MySQL.Async.fetchAll("SELECT * FROM users WHERE job = @job", {["@job"] = self.name}, function(result)
+                for _,v in pairs(result) do
+                    table.insert(membres, {
+                        name = v.firstname .. " " .. v.lastname,
+                        grade = v.job_grade
+                    })
+                end
+                RedFW.Shared.Event:triggerClientEvent("openJobMenu", src, self.name, self.label, self.grades, membres)
+            end)
+        end, self.name)
+    end
     RedFW.Server.Components.Players.jobs.list[name] = self
     print("^2Registered job: " .. name.."^0")
     return self
@@ -15,6 +29,10 @@ end
 
 function RedFW.Server.Components.Players.jobs:get(jobName)
     return RedFW.Server.Components.Players.jobs.list[jobName]
+end
+
+function RedFW.Server.Components.Players.jobs:getAll()
+    return RedFW.Server.Components.Players.jobs.list
 end
 
 function RedFW.Server.Components.Players.jobs:getMoney(jobName)
@@ -98,4 +116,21 @@ end)
 
 RegisterCommand('setJob', function(source, args)
     RedFW.Server.Components.Players.jobs:setJobPlayer(tonumber(args[1]), args[2], args[3])
+end)
+
+RedFW.Shared.Event:registerEvent('changeJobGradeWithUserName', function(job, nameUser, grade)
+    local player = RedFW.Server.Components.Players:getPlayerByName(nameUser)
+    if player then
+        RedFW.Server.Components.Players.jobs:setJobPlayer(player.serverId, job, grade)
+        return
+    end
+    MySQL.Async.fetchAll("SELECT * FROM users WHERE firstname = @firstname AND lastname = @lastname", {["@firstname"] = nameUser[1], ["@lastname"] = nameUser[2]}, function(result)
+        if result[1] then
+            MySQL.Async.execute('UPDATE users SET job = @job, job_grade = @job_grade WHERE identifier = @identifier', {
+                ['@identifier'] = result[1].identifier,
+                ['@job'] = job,
+                ['@job_grade'] = grade
+            })
+        end
+    end)
 end)

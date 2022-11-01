@@ -8,11 +8,11 @@
 - [x] Money
 - [x] Weather
 - [x] Time
+- [X] Vehicles
 - [x] Zone interaction (server side)
 
 # In the future:
 
-- [ ] Vehicles
 - [ ] Bank
 - [ ] Weapons
 - [ ] Gangs

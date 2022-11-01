@@ -34,7 +34,7 @@ CreateThread(function()
                         SetBlipColour(blips[i], v.color)
                         SetBlipAsShortRange(blips[i], true)
                         BeginTextCommandSetBlipName("STRING")
-                        AddTextComponentString(v.text)
+                        AddTextComponentString(v.name)
                         EndTextCommandSetBlipName(blips[i])
                     end
                 else
@@ -44,7 +44,7 @@ CreateThread(function()
                     SetBlipColour(blips[i], v.color)
                     SetBlipAsShortRange(blips[i], true)
                     BeginTextCommandSetBlipName("STRING")
-                    AddTextComponentString(v.text)
+                    AddTextComponentString(v.name)
                     EndTextCommandSetBlipName(blips[i])
                 end
             else

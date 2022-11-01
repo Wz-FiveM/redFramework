@@ -153,7 +153,7 @@ end)
 
 RedFW.Shared.Event:registerEvent("property:give", function(_src, id, price)
     local player = RedFW.Server.Components.Players:get(_src)
-    if player.account:get().cash >= price then
+    if player.account:get().cash >= price then 
         player.account:removeCash(price)
         player.save()
         local property = RedFW.Server.Addons.Property:get(id)
