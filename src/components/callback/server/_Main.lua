@@ -1,5 +1,4 @@
 RedFW.Server.Components.Callback = {}
-RedFW.Server.Components.Players = {}
 
 local serverCallbacks <const> = {}
 

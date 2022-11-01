@@ -48,5 +48,5 @@ end)
 
 RegisterCommand("pos", function(source, args)
     local pos = GetEntityCoords(GetPlayerPed(source))
-    print(pos)
+    print(pos, GetEntityHeading(GetPlayerPed(source)))
 end)

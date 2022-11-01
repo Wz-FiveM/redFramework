@@ -16,7 +16,6 @@ lua54 "yes"
 
 shared_scripts {
     "config.lua",
-    "src/components/define.lua",
     "src/constant/shared/*.lua",
     "src/components/**/shared/*.lua",
     "src/addons/**/shared/**/*.lua",
@@ -24,6 +23,7 @@ shared_scripts {
 
 server_scripts {
     "@oxmysql/lib/MySQL.lua",
+    "src/components/server.lua",
     "src/constant/server/*.lua",
     "src/components/**/server/*.lua",
     "src/addons/**/server/**/*.lua",
@@ -51,6 +51,7 @@ client_scripts {
     --[[
         RedFramework
     ]]--
+    "src/components/client.lua",
     "src/components/**/client/*.lua",
     "src/constant/client/*.lua",
     "src/addons/gameplay/client/**/*.lua",

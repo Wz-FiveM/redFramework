@@ -30,6 +30,10 @@ setmetatable(RedFW.Server.Components.Gameplay.Blips, {
     end,
 })
 
+function RedFW.Server.Components.Gameplay.Blips:new(name, position, color, sprite, scale, shortRange)
+    return RedFW.Server.Components.Gameplay.Blips(name, position, color, sprite, scale, shortRange)
+end
+
 function RedFW.Server.Components.Gameplay.Blips:get(id)
     return RedFW.Server.Components.Gameplay.Blips.list[id]
 end

@@ -10,21 +10,49 @@
 
 --]]
 
-local Blips = {}
+local AllBlips = {}
+
+SetTimeout(2000, function()
+    RedFW.Shared.Event:triggerServerEvent("getBlips")
+end)
 
 RedFW.Shared.Event:registerEvent('receiveBlips', function(blips)  
-    Blips = blips
-    for i, v in pairs(blips) do
-        if not DoesBlipExist(Blips[i]) then
-            Blips[i] = AddBlipsForCoord(v.position.x, v.position.y, v.position.z)
-            SetBlipSprite(Blips[i], v.sprite)
-            SetBlipDisplay(Blips[i], v.display)
-            SetBlipScale(Blips[i], v.scale)
-            SetBlipColour(Blips[i], v.color)
-            SetBlipAsShortRange(Blips[i], v.shortRange)
-            BeginTextCommandSetBlipName('STRING')
-            AddTextComponentString(v.name)
-            EndTextCommandSetBlipName(Blips[i])
+    AllBlips = blips
+end)
+
+CreateThread(function()
+    local blips = {}
+    while true do
+        Wait(5000)
+        for i, v in pairs(AllBlips) do
+            if not DoesBlipExist(blips[i]) then
+                if (v.job ~= nil) then
+                    if (RedFW.Client.Components.Player.job.name == v.job) then
+                        blips[i] = AddBlipForCoord(v.position)
+                        SetBlipSprite(blips[i], v.sprite)
+                        SetBlipScale(blips[i], v.scale)
+                        SetBlipColour(blips[i], v.color)
+                        SetBlipAsShortRange(blips[i], true)
+                        BeginTextCommandSetBlipName("STRING")
+                        AddTextComponentString(v.text)
+                        EndTextCommandSetBlipName(blips[i])
+                    end
+                else
+                    blips[i] = AddBlipForCoord(v.position.x, v.position.y, v.position.z)
+                    SetBlipSprite(blips[i], v.sprite)
+                    SetBlipScale(blips[i], v.scale)
+                    SetBlipColour(blips[i], v.color)
+                    SetBlipAsShortRange(blips[i], true)
+                    BeginTextCommandSetBlipName("STRING")
+                    AddTextComponentString(v.text)
+                    EndTextCommandSetBlipName(blips[i])
+                end
+            else
+                if v.job ~= nil and v.job ~= RedFW.Client.Components.Player.job.name then
+                    RemoveBlip(blips[i])
+                    blips[i] = nil
+                end
+            end
         end
     end
 end)

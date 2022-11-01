@@ -7,10 +7,19 @@ end
 local function openGarage()
     if not active then
         active = true
-        main:Display()
-        RedFW.Client.Components.Callback:triggerServer("getVehicleList", function(vehicles)
-            for k, v in pairs(vehicles) do
-                RedFW.Client.Components.Player.vehicle.list[v.id] = v
+        RageUI.Visible(main, true)
+        Citizen.CreateThread(function()
+            while active do
+                RageUI.IsVisible(main, function()
+                    for key, value in pairs(RedFW.Client.Components.Vehicle:getAll()) do
+                        RageUI.Button(GetLabelText(GetDisplayNameFromVehicleModel(value.props.model)), nil, {RightLabel = "→→→"}, true, {
+                            onSelected = function()
+                                
+                            end
+                        })
+                    end
+                end)
+                Wait(0)
             end
         end)
     end
