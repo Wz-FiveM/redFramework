@@ -1,6 +1,7 @@
-local serverCallbacks <const> = {}
-
 RedFW.Server.Components.Callback = {}
+RedFW.Server.Components.Players = {}
+
+local serverCallbacks <const> = {}
 
 ---register
 ---@param eventName string

@@ -1,5 +1,5 @@
 RedFW.Client.Components.Callback = {}
-
+RedFW.Client.Components.Player = {}
 ---triggerServer
 ---@param eventName string
 ---@param cb function

@@ -569,7 +569,7 @@ local function openMenu()
             end)
             RageUI.IsVisible(sub2, function()
                 for key, value in pairs(allVehs) do
-                    RageUI.Button(GetLabelText(GetDisplayNameFromVehicleModel(value.props.model)) .. " [".. value.plate.."]", ('Model: %s\nPlaque: %s\nSituation: %s\nVendu: %s'):format(value.props.model, value.plate, value.situation, value.owner ~= "cardealer"), {}, value.owner == "cardealer", {
+                    RageUI.Button(GetLabelText(GetDisplayNameFromVehicleModel(value.props.model)) .. " [".. value.plate.."]", ('Model: %s\nPlaque: %s\nSituation: %s\nVendu: %s'):format(GetLabelText(GetDisplayNameFromVehicleModel(value.props.model)), value.plate, value.situation, value.owner ~= "cardealer"), {}, true, {
                         onSelected = function()
                             local player, distance = RedFW.Client.Functions:getClosestPlayer()
                             if (distance ~= -1 and distance <= 3.0) then

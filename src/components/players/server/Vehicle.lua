@@ -23,6 +23,27 @@ function RedFW.Server.Components.Players.vehicles:getAll()
     return RedFW.Server.Components.Players.vehicles.list
 end
 
+function RedFW.Server.Components.Players.vehicles:ifPlateExist(plate)
+    for k, v in pairs(RedFW.Server.Components.Players.vehicles.list) do
+        if v.plate == plate then
+            return true
+        end
+    end
+    return false
+end
+
+function RedFW.Server.Components.Players.vehicles:generatePlate()
+    local plate = ""
+    for i = 1, 8 do
+        plate = plate .. string.char(math.random(65, 90))
+    end
+    if RedFW.Server.Components.Players.vehicles:ifPlateExist(plate) then
+        return RedFW.Server.Components.Players.vehicles:generatePlate()
+    else
+        return plate
+    end
+end
+
 function RedFW.Server.Components.Players.vehicles:save()
     MySQL.Async.execute("UPDATE `vehicles` SET `props` = @props, `plate` = @plate, `situation` = @situation WHERE `id` = @id", {
         ['@id'] = self.id,
@@ -36,10 +57,10 @@ function RedFW.Server.Components.Players.vehicles:new(owner, props, plate, situa
     MySQL.Async.execute("INSERT INTO `vehicles` (`owner`, `props`, `plate`, `situation`) VALUES (@owner, @props, @plate, @situation)", {
         ['@owner'] = owner,
         ['@props'] = json.encode(props),
-        ['@plate'] = plate,
+        ['@plate'] = RedFW.Server.Components.Players.vehicles:generatePlate(),
         ['@situation'] = situation
     }, function(id)
-        RedFW.Server.Components.Players.vehicles(id, owner, props, plate, situation)
+        RedFW.Server.Components.Players.vehicles(id, owner, props, RedFW.Server.Components.Players.vehicles:generatePlate(), situation)
     end)
 end
 
@@ -57,4 +78,15 @@ CreateThread(function()
             print("^2Vehicle " .. v.plate .." loaded^0")
         end
     end)
+end)
+
+RedFW.Server.Components.Callback:register("getVehicleList", function(source)
+    local player = RedFW.Server.Components.Players:get(source)
+    local vehicles = {}
+    for k, v in pairs(RedFW.Server.Components.Players.vehicles.list) do
+        if v.owner == player.identifier then
+            table.insert(vehicles, v)
+        end
+    end
+    return vehicles
 end)

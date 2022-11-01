@@ -16,6 +16,7 @@ lua54 "yes"
 
 shared_scripts {
     "config.lua",
+    "src/components/define.lua",
     "src/constant/shared/*.lua",
     "src/components/**/shared/*.lua",
     "src/addons/**/shared/**/*.lua",
