@@ -27,6 +27,7 @@ server_scripts {
     "src/constant/server/*.lua",
     "src/components/**/server/*.lua",
     "src/addons/**/server/**/*.lua",
+    "src/server.lua",
 }
 
 client_scripts {
@@ -56,8 +57,5 @@ client_scripts {
     "src/constant/client/*.lua",
     "src/addons/gameplay/client/**/*.lua",
     "src/addons/**/client/*.lua",
-}
-
-shared_script {
-    "import.lua"
+    "src/client.lua",
 }
