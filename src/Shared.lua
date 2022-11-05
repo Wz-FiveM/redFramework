@@ -1,7 +1,7 @@
 exports('GetCoreObject', function()
-    return RedFW
+  return RedFW
 end)
 
 AddEventHandler('GetCoreObject', function(cb)
-    cb(RedFW)
-  end)
+  cb(RedFW)
+end)

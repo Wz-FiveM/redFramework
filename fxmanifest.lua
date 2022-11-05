@@ -18,13 +18,13 @@ shared_scripts {
     "config.lua",
     "src/constant/shared/*.lua",
     "src/components/**/shared/*.lua",
+    "src/Shared.lua",
 }
 
 server_scripts {
     "@oxmysql/lib/MySQL.lua",
     "src/constant/server/*.lua",
     "src/components/**/server/*.lua",
-    "src/server.lua",
 }
 
 client_scripts {
@@ -39,5 +39,8 @@ client_scripts {
     ]]--
     "src/components/**/client/*.lua",
     "src/constant/client/*.lua",
-    "src/client.lua",
+}
+
+exports {
+    "GetCoreObject",
 }
