@@ -1,3 +1,4 @@
+RedFW.Server.Components.Players = {}
 RedFW.Server.Components.Players.inventory = {}
 RedFW.Server.Components.Players.inventory.list = {}
 RedFW.Server.Components.Players.inventory.__index = RedFW.Server.Components.Players.inventory

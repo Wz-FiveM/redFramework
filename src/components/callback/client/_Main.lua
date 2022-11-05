@@ -1,3 +1,4 @@
+RedFW.Client.Components = {}
 RedFW.Client.Components.Callback = {}
 ---triggerServer
 ---@param eventName string

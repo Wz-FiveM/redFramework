@@ -40,3 +40,7 @@ function RedFW.Server.Functions:file_write(file, text)
     f:write(text)
     f:close()
 end
+
+function RedFW.Server.Functions:log(message)
+    print(message)
+end

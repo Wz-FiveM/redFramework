@@ -23,7 +23,6 @@ shared_scripts {
 
 server_scripts {
     "@oxmysql/lib/MySQL.lua",
-    "src/components/server.lua",
     "src/constant/server/*.lua",
     "src/components/**/server/*.lua",
     "src/addons/**/server/**/*.lua",
@@ -52,7 +51,6 @@ client_scripts {
     --[[
         RedFramework
     ]]--
-    "src/components/client.lua",
     "src/components/**/client/*.lua",
     "src/constant/client/*.lua",
     "src/addons/gameplay/client/**/*.lua",
