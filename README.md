@@ -6,4 +6,4 @@ Vous pouvez crée un dossier addons dans le dossier SRC en attendant. Oublier pa
 
 Work By Wezor
 
-[*] Discord (https://discord.gg/TzyAYQNmSc)
+[*] - Discord (https://discord.gg/TzyAYQNmSc)
