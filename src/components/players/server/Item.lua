@@ -27,6 +27,14 @@ function RedFW.Server.Components.Players.items:register(data)
     RedFW.Server.Components.Players.items(data)
 end
 
+---exist
+---@param name string
+---@return boolean
+---@public
+function RedFW.Server.Components.Players.items:exist(name)
+    return (RedFW.Server.Components.Players.items.list[name] ~= nil)
+end
+
 ---get
 ---@param name string
 ---@return table

@@ -29,7 +29,7 @@ setmetatable(RedFW.Server.Components.Players.metatable, {
         self.account = RedFW.Server.Components.Players.accounts(serverId, datas.cash, datas.bank)
         RedFW.Server.Components.Players.listPlayers[serverId] = self
         print(('^2Player %s loaded^0'):format(GetPlayerName(self.serverId)))
-        RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, self.inventory, self.inventory.getWeight())
+        RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, self.inventory, self.inventory:getWeight())
         RedFW.Shared.Event:triggerClientEvent('receiveJob', serverId, RedFW.Server.Components.Players.jobs:get(self.jobName), RedFW.Server.Components.Players.jobs:getGrade(self.jobName, self.jobGrade))
         return self
     end
