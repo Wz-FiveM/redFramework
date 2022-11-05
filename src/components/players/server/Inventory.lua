@@ -62,8 +62,6 @@ setmetatable(RedFW.Server.Components.Players.inventory, {
             end
         end
 
-        RedFW.Server.Components.Players.inventory.list[self.serverId] = self
-
         return self
     end
 })

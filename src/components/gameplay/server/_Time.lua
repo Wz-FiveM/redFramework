@@ -26,7 +26,6 @@ CreateThread(function()
                 CurrentTime.hour = CurrentTime.hour + 1
                 if CurrentTime.hour == 24 then
                     CurrentTime.hour = 0
-                    CurrentTime.day = CurrentTime.day + 1
                 end;
             end;
             RedFW.Server.Functions:file_write("resources/redFramework/src/constant/server/time.json", json.encode(CurrentTime))
