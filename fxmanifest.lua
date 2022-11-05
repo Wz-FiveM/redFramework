@@ -18,14 +18,12 @@ shared_scripts {
     "config.lua",
     "src/constant/shared/*.lua",
     "src/components/**/shared/*.lua",
-    "src/addons/**/shared/**/*.lua",
 }
 
 server_scripts {
     "@oxmysql/lib/MySQL.lua",
     "src/constant/server/*.lua",
     "src/components/**/server/*.lua",
-    "src/addons/**/server/**/*.lua",
     "src/server.lua",
 }
 
@@ -37,23 +35,9 @@ client_scripts {
     "src/vendors/Bob74/client.lua",
     "src/vendors/Bob74/**/*.lua",
     --[[
-        RageUI
-    ]]--
-    "src/vendors/RageUI/RMenu.lua",
-    "src/vendors/RageUI/menu/RageUI.lua",
-    "src/vendors/RageUI/menu/Menu.lua",
-    "src/vendors/RageUI/menu/MenuController.lua",
-    "src/vendors/RageUI/components/*.lua",
-    "src/vendors/RageUI/menu/elements/*.lua",
-    "src/vendors/RageUI/menu/items/*.lua",
-    "src/vendors/RageUI/menu/panels/*.lua",
-    "src/vendors/RageUI/menu/windows/*.lua",
-    --[[
         RedFramework
     ]]--
     "src/components/**/client/*.lua",
     "src/constant/client/*.lua",
-    "src/addons/gameplay/client/**/*.lua",
-    "src/addons/**/client/*.lua",
     "src/client.lua",
 }
