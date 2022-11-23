@@ -30,13 +30,13 @@ SET time_zone = "+00:00";
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `identifier` varchar(255) NOT NULL,
-  `rank` varchar(25) NOT NULL,
-  `skin` longtext NOT NULL,
-  `inventory` longtext NOT NULL,
-  `job` varchar(25) NOT NULL,
-  `job_grade` varchar(25) NOT NULL,
-  `cash` int(11) NOT NULL,
-  `bank` int(11) NOT NULL
+  `rank` varchar(25) DEFAULT 'user',
+  `skin` longtext DEFAULT '[]',
+  `inventory` longtext DEFAULT '[]',
+  `job` varchar(25) DEFAULT 'unemployed',
+  `job_grade` varchar(25) DEFAULT 'unemployed',
+  `cash` int(11) DEFAULT 0,
+  `bank` int(11) DEFAULT 0,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
