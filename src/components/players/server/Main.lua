@@ -21,14 +21,28 @@ setmetatable(RedFW.Server.Components.Players.metatable, {
         self.serverId = serverId
         self.name = datas.firstname.." "..datas.lastname
         self.identifier = datas.identifier
+        self.position = json.decode(datas.position)
         self.skin = json.decode(datas.skin)
         self.rank = RedFW.Server.Components.Players.rank:getRank(datas.rank)
         self.inventory = RedFW.Server.Components.Players.inventory(json.decode(datas.inventory), serverId)
         self.jobName = RedFW.Server.Components.Players.jobs:exist(datas.job)
         self.jobGrade = RedFW.Server.Components.Players.jobs:gradeExist(datas.job, datas.job_grade)
         self.account = RedFW.Server.Components.Players.accounts(serverId, datas.cash, datas.bank)
+        function self:save()
+            MySQL.Async.execute("UPDATE users SET firstname = @firstname, lastname = @lastname, position = @position, skin = @skin, inventory = @inventory, job = @job, job_grade = @job_grade, cash = @cash, bank = @bank WHERE identifier = @identifier", {
+                ['@position'] = json.encode(self.position),
+                ['@skin'] = json.encode(self.skin),
+                ['@inventory'] = json.encode(self.inventory:get()),
+                ['@job'] = self.jobName,
+                ['@job_grade'] = self.jobGrade,
+                ['@cash'] = self.account:getCash(),
+                ['@bank'] = self.account:getBank(),
+                ['@identifier'] = self.identifier
+            })
+        end
         RedFW.Server.Components.Players.listPlayers[serverId] = self
         print(('^2Player %s loaded^0'):format(GetPlayerName(self.serverId)))
+        SetEntityCoords(GetPlayerPed(self.serverId), self.position.x, self.position.y, self.position.z)
         RedFW.Shared.Event:triggerClientEvent('receiveInventory', serverId, self.inventory, self.inventory:getWeight())
         RedFW.Shared.Event:triggerClientEvent('receiveJob', serverId, RedFW.Server.Components.Players.jobs:get(self.jobName), RedFW.Server.Components.Players.jobs:getGrade(self.jobName, self.jobGrade))
         return self
@@ -86,3 +100,22 @@ function RedFW.Server.Components.Players:getPlayerByName(name)
     end
     return false
 end
+
+AddEventHandler("playerDropped", function()
+    local _src = source
+    if (_src) then
+        local player = RedFW.Server.Components.Players:get(_src)
+        if (player) then
+            player:save()
+            RedFW.Server.Components.Players.listPlayers[_src] = nil
+        end
+    end
+end)
+
+AddEventHandler("onResourceStop", function(resource)
+    if (GetCurrentResourceName() == resource) then
+        for _, v in pairs(RedFW.Server.Components.Players.listPlayers) do
+            v:save()
+        end
+    end
+end)
