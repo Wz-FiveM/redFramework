@@ -29,7 +29,7 @@ setmetatable(RedFW.Server.Components.Players.metatable, {
         self.jobGrade = RedFW.Server.Components.Players.jobs:gradeExist(datas.job, datas.job_grade)
         self.account = RedFW.Server.Components.Players.accounts(serverId, datas.cash, datas.bank)
         function self:save()
-            MySQL.Async.execute("UPDATE users SET firstname = @firstname, lastname = @lastname, position = @position, skin = @skin, inventory = @inventory, job = @job, job_grade = @job_grade, cash = @cash, bank = @bank WHERE identifier = @identifier", {
+            MySQL.Async.execute("UPDATE users SET position = @position, skin = @skin, inventory = @inventory, job = @job, job_grade = @job_grade, cash = @cash, bank = @bank WHERE identifier = @identifier", {
                 ['@position'] = json.encode(self.position),
                 ['@skin'] = json.encode(self.skin),
                 ['@inventory'] = json.encode(self.inventory:get()),
