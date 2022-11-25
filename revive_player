@@ -1,0 +1,4 @@
+RegisterCommand("revive", function()
+    local coords, heading = GetEntityCoords(PlayerPedId()), GetEntityHeading()
+    NetworkResurrectLocalPlayer(coords, heading)
+end)
