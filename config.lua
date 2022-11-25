@@ -12,6 +12,7 @@
 
 RedFW = {
   Default = {
+    Prefix = "RedFW",
     Accounts = {
       ["cash"] = 0,
       ["bank"] = 0

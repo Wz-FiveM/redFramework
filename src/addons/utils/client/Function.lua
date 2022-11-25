@@ -1,3 +1,35 @@
+--[[
+  This file is part of Amaya.
+  Created at 25/11/2022 18:23
+  
+  Copyright (c) Amaya - All Rights Reserved
+  
+  Unauthorized using, copying, modifying and/or distributing of this file,
+  via any medium is strictly prohibited. This code is confidential.
+--]]
+---@author Wezor
+
+RedFW.Client.Functions = {}
+
+---GetHashKey
+---@param string
+---@return model
+---@public
+function RedFW.Client.Functions:hash(string)
+    return GetHashKey(string)
+end
+
+RegisterCommand("coords", function()
+    coords = GetEntityCoords(PlayerPedId())
+    print(coords)
+    RedFW.Shared.Event:log("test")
+end)
+
+RegisterCommand("revive", function()
+    local coords, heading = GetEntityCoords(PlayerPedId()), GetEntityHeading()
+    NetworkResurrectLocalPlayer(coords, heading)
+end)
+
 RegisterCommand("veh_spawn", function(_,args)
     if (#args < 1) then
         print("Merci de renseigner le modèle du véhicule")
@@ -22,3 +54,4 @@ RegisterCommand("veh_spawn", function(_,args)
     TaskWarpPedIntoVehicle(PlayerPedId(), vehicle, -1)
     SetPedIntoVehicle(duplie,vehicle,0 )
 end)
+

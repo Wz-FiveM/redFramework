@@ -68,3 +68,10 @@ function RedFW.Shared.Event:handleEvent(nameEvent, callback)
     local newEvent = "RedFW:"..GetHashKey(nameEvent)
     return AddEventHandler(newEvent, callback)
 end
+
+---log
+---@param string
+---@public
+function RedFW.Shared.Event:log(string)
+    print(("%s %s^7"):format(RedFW.Default.Prefix, string))
+end
