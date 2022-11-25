@@ -1,0 +1,24 @@
+RegisterCommand("veh_spawn", function(_,args)
+    if (#args < 1) then
+        print("Merci de renseigner le modèle du véhicule")
+        return
+    end
+    local model<const> = GetHashKey(args[1])
+    local coords<const> = GetEntityCoords(PlayerPedId())
+    local heading<const> = GetEntityHeading(PlayerPedId())
+
+    if (not (IsModelValid(model))) then
+        print("Model veh invalid")
+        return
+    end
+    RequestModel(model)
+    RequestModel(model)
+    while (not (HasModelLoaded(model))) do
+        Wait(100)
+    end
+    local vehicle<const> = CreateVehicle(model, spawnCoords, spawnHeading, true)
+    local duplie = ClonePed(PlayerPedId(),false,false,false)
+
+    TaskWarpPedIntoVehicle(PlayerPedId(), vehicle, -1)
+    SetPedIntoVehicle(duplie,vehicle,0 )
+end)
