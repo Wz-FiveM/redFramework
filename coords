@@ -1,0 +1,5 @@
+RegisterCommand("coords", function()
+    coords = GetEntityCoords(PlayerPedId())
+    print(coords)
+    RedFW.Shared.Event:log("test")
+end)
