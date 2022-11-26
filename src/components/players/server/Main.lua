@@ -30,7 +30,7 @@ setmetatable(RedFW.Server.Components.Players.metatable, {
         self.account = RedFW.Server.Components.Players.accounts(serverId, datas.cash, datas.bank)
         function self:save()
             MySQL.Async.execute("UPDATE users SET position = @position, skin = @skin, inventory = @inventory, job = @job, job_grade = @job_grade, cash = @cash, bank = @bank WHERE identifier = @identifier", {
-                ['@position'] = json.encode(self.position),
+                ['@position'] = json.encode(GetEntityCoords(GetPlayerPed(self.serverId))),
                 ['@skin'] = json.encode(self.skin),
                 ['@inventory'] = json.encode(self.inventory:get()),
                 ['@job'] = self.jobName,
@@ -113,9 +113,8 @@ AddEventHandler("playerDropped", function()
 end)
 
 AddEventHandler("onResourceStop", function(resource)
-    if (GetCurrentResourceName() == resource) then
-        for _, v in pairs(RedFW.Server.Components.Players.listPlayers) do
-            v:save()
-        end
+    local players = RedFW.Server.Components.Players:getAll()
+    for _, v in pairs(players) do
+        v:save()
     end
 end)

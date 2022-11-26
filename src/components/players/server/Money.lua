@@ -48,6 +48,14 @@ function RedFW.Server.Components.Players.accounts:getCash()
     return self.cash
 end
 
+---getBank
+---@param self table
+---@return void
+---@public
+function RedFW.Server.Components.Players.accounts:getBank()
+    return self.bank
+end
+
 ---addBank
 ---@param self table
 ---@param amount number
